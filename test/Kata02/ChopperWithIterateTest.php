@@ -6,7 +6,7 @@
  * Time: 7:02 PM
  */
 
-namespace Kata\Test\Kata02;
+
 
 use Kata\Kata02\ChopperWithIterate;
 
