@@ -9,6 +9,7 @@
 namespace Kata\Kata03;
 
 use Kata\Kata03\TimerCounter;
+use Kata\Kata03\Helper;
 
 class LoginDb {
     private $_ipCounter = null;
@@ -18,7 +19,7 @@ class LoginDb {
 
 
     public function setEnvIpAndCountry($ip, $country) {
-        $range = $this->getRangeFromIp($ip);
+        $range = Helper::getRangeFromIp($ip);
         $this->_ipCounter = CounterRegistry::getCounterFor('ip', $ip);
         $this->_countryCounter = CounterRegistry::getCounterFor('country', $country);
         $this->_rangeCounter = CounterRegistry::getCounterFor('range', $range);
@@ -43,13 +44,4 @@ class LoginDb {
     }
 
 
-    /**
-     * @param $ip
-     * @return string
-     * @todo move it out to helper class
-     */
-    private function getRangeFromIp($ip) {
-        list($a, $b, $c, $d) = explode(".", $ip);
-        return $a . '.' . $b . '.' . $c;
-    }
 }

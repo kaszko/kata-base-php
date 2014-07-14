@@ -10,6 +10,7 @@ namespace Kata\Kata03;
 
 use Kata\Kata03\Counter;
 use Kata\Kata03\Validator;
+use Kata\Kata03\Helper;
 
 /**
  * Class TimerCounter
@@ -58,7 +59,7 @@ class TimerCounter extends Counter {
     }
 
     public function increase() {
-        $timeBlockKey = $this->_getTimeBlockKeyForUnixTime(time());
+        $timeBlockKey = Helper::getTimeBlockKeyFromUnixtime(time(), $this->_timeBlockSize);
         if (!isset($this->_timeBlocksCounters[$timeBlockKey])) {
             /**
              * Maybe there is no point to make new Counter :)

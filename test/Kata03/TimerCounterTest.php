@@ -33,15 +33,15 @@ class TimerCounterTest extends \PHPUnit_Framework_TestCase {
      *
      * @throws \Exception
      */
-    public function testTimeBlockHandling() {
-        $counter = new TimerCounter();
-        $counter->setTimeBlockSize(5);
-
-        $method = new \ReflectionMethod('\\Kata\\Kata03\\TimerCounter', '_getTimeBlockKeyForUnixTime');
-        $method->setAccessible(true);
-        $this->assertEquals(10, $method->invoke($counter, 13));
-        $this->assertEquals(15, $method->invoke($counter, 15));
-    }
+//    public function testTimeBlockHandling() {
+//        $counter = new TimerCounter();
+//        $counter->setTimeBlockSize(5);
+//
+//        $method = new \ReflectionMethod('\\Kata\\Kata03\\TimerCounter', '_getTimeBlockKeyForUnixTime');
+//        $method->setAccessible(true);
+//        $this->assertEquals(10, $method->invoke($counter, 13));
+//        $this->assertEquals(15, $method->invoke($counter, 15));
+//    }
 
     /**
      * @expectedException \Exception
@@ -58,21 +58,21 @@ class TimerCounterTest extends \PHPUnit_Framework_TestCase {
      * @throws \Exception
      * @todo mock the time !:)
      */
-    public function testTimeOut() {
-//        $counter = new TimerCounter();
-//        $counter->setTimeBlockSize(5);
-//        $counter->setTimeOut(10);
-//        $counter->increase();
-//        $this->assertEquals(1, $counter->getCount());
-//        sleep(11);
-//        $this->assertEquals(0, $counter->getCount());
-//        $counter->increase();
-//        $this->assertEquals(1, $counter->getCount());
-//        sleep(3);
-//        $this->assertEquals(1, $counter->getCount());
+    public function xtestTimeOutWithRealTime() {
+        $counter = new TimerCounter();
+        $counter->setTimeBlockSize(5);
+        $counter->setTimeOut(10);
+        $counter->increase();
+        $this->assertEquals(1, $counter->getCount());
+        sleep(11);
+        $this->assertEquals(0, $counter->getCount());
+        $counter->increase();
+        $this->assertEquals(1, $counter->getCount());
+        sleep(3);
+        $this->assertEquals(1, $counter->getCount());
     }
 
-    public function testTimeOutWithMockedTime() {
+    public function testTimeOutWithMockedTimeWithReflection() {
         $counter = new TimerCounter();
         $counter->setTimeBlockSize(300);
         $counter->setTimeOut(3600);
@@ -104,6 +104,41 @@ class TimerCounterTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals(1285, $counter->getCount());
 
+
+    }
+
+    public function testTimeOutWithMock() {
+
+        $method = new \ReflectionMethod('\\Kata\\Kata03\\TimerCounter', '_getTimeBlockKeyForUnixTime');
+        $method->setAccessible(true);
+
+        $counter = new TimerCounter();
+        $counter->setTimeBlockSize(300);
+        $counter->setTimeOut(3600);
+
+        $counterDefs = array(
+            time() - 12000 => 98,
+            time() - 3222 => 56,
+            time() => 90,
+        );
+        $counters = array();
+
+        foreach ($counterDefs as $unixTime => $countValue) {
+
+            $counterIndex = $method->invoke($counter, $unixTime);
+            $counters[$counterIndex] = $this->getMock('\\Kata\\Kata03\\Counter');
+            $counters[$counterIndex]->expects($this->any())
+                ->method('getCount')
+                ->will($this->returnValue($countValue));
+
+        }
+
+        $r = new \ReflectionClass('\\Kata\\Kata03\\TimerCounter');
+        $rProp = $r->getProperty('_timeBlocksCounters');
+        $rProp->setAccessible(true);
+        $rProp->setValue($counter, $counters);
+
+        $this->assertEquals(90 + 56, $counter->getCount());
 
     }
 
