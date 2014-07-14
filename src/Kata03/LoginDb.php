@@ -15,9 +15,41 @@ class LoginDb {
     private $_rangeCounter = null;
     private $_countryCounter = null;
 
-    public function __construct() {
-//        $this->_ipCounter = new TimerCounter();
-//        $this->_countryCounter = new TimerCounter();
-//        $this->
+
+
+    public function setEnvIpAndCountry($ip, $country) {
+        $range = $this->getRangeFromIp($ip);
+        $this->_ipCounter = CounterRegistry::getCounterFor('ip', $ip);
+        $this->_countryCounter = CounterRegistry::getCounterFor('country', $country);
+        $this->_rangeCounter = CounterRegistry::getCounterFor('range', $range);
     }
-} 
+
+    public function logFailedLoginOfUserWithRegistrationCountry($username, $registrationCountry) {
+        $this->_ipCounter->increase();
+        $this->_rangeCounter->increase();
+        $this->_countryCounter->increase();
+    }
+
+    public function getIpFailedLoginCount() {
+        $this->_ipCounter->getCount();
+    }
+
+    public function getRangeFailedLoginCount() {
+        $this->_rangeCounter->getCount();
+    }
+
+    public function getCountryFailedLoginCount() {
+        $this->_countryCounter->getCount();
+    }
+
+
+    /**
+     * @param $ip
+     * @return string
+     * @todo move it out to helper class
+     */
+    private function getRangeFromIp($ip) {
+        list($a, $b, $c, $d) = explode(".", $ip);
+        return $a . '.' . $b . '.' . $c;
+    }
+}

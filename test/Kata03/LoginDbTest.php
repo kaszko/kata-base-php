@@ -19,17 +19,24 @@ class LoginDbTest extends \PHPUnit_Framework_TestCase {
 
         $loginDb = new LoginDb();
         $loginDb->setEnvIpAndCountry($ip, $country);
+
         $loginDb->logFailedLoginOfUserWithRegistrationCountry('kolos', 'HU');
 
         $this->assertEquals(1, $loginDb->getIpFailedLoginCount());
         $this->assertEquals(1, $loginDb->getRangeFailedLoginCount());
         $this->assertEquals(1, $loginDb->getCountryFailedLoginCount());
+
+        $loginDb->logFailedLoginOfUserWithRegistrationCountry('kolos', 'HU');
+
+        $this->assertEquals(2, $loginDb->getIpFailedLoginCount());
+        $this->assertEquals(2, $loginDb->getRangeFailedLoginCount());
+        $this->assertEquals(2, $loginDb->getCountryFailedLoginCount());
+
     }
 
-    public function
+/*    //  public function
 
-/*    static private $pdo = null;
-    private $conn = null;
+    static private $pdo = null;
 
     const DB_SCHEMA = "
         CREATE TABLE failed_logins (
@@ -45,7 +52,7 @@ class LoginDbTest extends \PHPUnit_Framework_TestCase {
         )
     ";
 
-    private function _getConnection()
+    private function getConnection()
     {
         if (self::$pdo == null) {
             self::$pdo = new \PDO('sqlite::memory:');
@@ -54,31 +61,31 @@ class LoginDbTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function setUp() {
-        $this->_getConnection()->exec(self::DB_SCHEMA);
+        $this->getConnection()->exec(self::DB_SCHEMA);
         echo "setup\n";
     }
 
-    public function xtestValami() {
-        $res = $this->_getConnection()->prepare("select * from failed_logins");
+    public function testValami() {
+        $res = $this->getConnection()->prepare("select * from failed_logins");
         $res->execute();
         $x = $res->fetchAll();
         var_export($x);
         echo 1;
     }
 
-    public function testSaveFailedLogin() {
-        $ip ='192.168.1.1';
-        $country = 'HU';
-        $username = 'kolos';
-
-        $loginDb = new LoginDb;
-        $loginDb->setEnvIpAndCountry($ip, $country);
-        $loginDb->logFailedLoginOfUserWithRegistrationCountry('kolos', 'HU');
-
-        $this->assertEquals(1, $loginDb->getIpFailedLoginCount());
-        $this->assertEquals(1, $loginDb->getRangeFailedLoginCount());
-        $this->assertEquals(1, $loginDb->getCountryFailedLoginCount());
-    }
+//    public function testSaveFailedLogin() {
+//        $ip ='192.168.1.1';
+//        $country = 'HU';
+//        $username = 'kolos';
+//
+//        $loginDb = new LoginDb;
+//        $loginDb->setEnvIpAndCountry($ip, $country);
+//        $loginDb->logFailedLoginOfUserWithRegistrationCountry('kolos', 'HU');
+//
+//        $this->assertEquals(1, $loginDb->getIpFailedLoginCount());
+//        $this->assertEquals(1, $loginDb->getRangeFailedLoginCount());
+//        $this->assertEquals(1, $loginDb->getCountryFailedLoginCount());
+//    }
 
     public function testInvalidation() {
 
@@ -90,7 +97,7 @@ class LoginDbTest extends \PHPUnit_Framework_TestCase {
 
     public function tearDown() {
         echo "teardown\n";
-        $this->_getConnection()->exec("DELETE FROM failed_logins");
+        $this->getConnection()->exec("DELETE FROM failed_logins");
     }*/
 
 }

@@ -9,6 +9,7 @@
 namespace Kata\Test\Kata03;
 
 use Kata\Kata03\TimerCounter;
+use Kata\Kata03\Counter;
 
 class TimerCounterTest extends \PHPUnit_Framework_TestCase {
 
@@ -17,7 +18,7 @@ class TimerCounterTest extends \PHPUnit_Framework_TestCase {
      * @dataProvider countDataProvider
      * @param $countTo
      */
-    public function xtestCount($countTo) {
+    public function testCount($countTo) {
         $counter = new TimerCounter();
         $this->assertEquals(0, $counter->getCount());
         for ($x=0;$x<$countTo;$x++) {
@@ -55,19 +56,55 @@ class TimerCounterTest extends \PHPUnit_Framework_TestCase {
      * Valodi timeout teszteles
      *
      * @throws \Exception
+     * @todo mock the time !:)
      */
     public function testTimeOut() {
+//        $counter = new TimerCounter();
+//        $counter->setTimeBlockSize(5);
+//        $counter->setTimeOut(10);
+//        $counter->increase();
+//        $this->assertEquals(1, $counter->getCount());
+//        sleep(11);
+//        $this->assertEquals(0, $counter->getCount());
+//        $counter->increase();
+//        $this->assertEquals(1, $counter->getCount());
+//        sleep(3);
+//        $this->assertEquals(1, $counter->getCount());
+    }
+
+    public function testTimeOutWithMockedTime() {
         $counter = new TimerCounter();
-        $counter->setTimeBlockSize(5);
-        $counter->setTimeOut(10);
-        $counter->increase();
-        $this->assertEquals(1, $counter->getCount());
-        sleep(11);
-        $this->assertEquals(0, $counter->getCount());
-        $counter->increase();
-        $this->assertEquals(1, $counter->getCount());
-        sleep(3);
-        $this->assertEquals(1, $counter->getCount());
+        $counter->setTimeBlockSize(300);
+        $counter->setTimeOut(3600);
+
+        $method = new \ReflectionMethod('\\Kata\\Kata03\\TimerCounter', '_getTimeBlockKeyForUnixTime');
+        $method->setAccessible(true);
+
+        $counterRefl = new \ReflectionClass('\\Kata\\Kata03\\Counter');
+        $rProp = $counterRefl->getProperty('_count');
+        $rProp->setAccessible(true);
+
+        $counter1 = new Counter();
+        $rProp->setValue($counter1, 1723);
+        $counter2 = new Counter();
+        $rProp->setValue($counter2, 1230);
+        $counter3 = new Counter();
+        $rProp->setValue($counter3, 55);
+
+        $mockTimeBlocks = array(
+            $method->invoke($counter, time() - 10000) => $counter1, // timed out row
+            $method->invoke($counter, time() - 1000) => $counter2,
+            $method->invoke($counter, time() - 300) => $counter3,
+        );
+
+        $r = new \ReflectionClass('\\Kata\\Kata03\\TimerCounter');
+        $rProp = $r->getProperty('_timeBlocksCounters');
+        $rProp->setAccessible(true);
+        $rProp->setValue($counter, $mockTimeBlocks);
+
+        $this->assertEquals(1285, $counter->getCount());
+
+
     }
 
     /**
