@@ -9,6 +9,7 @@
 namespace Kata\Test\Kata03;
 
 use Kata\Kata03\LoginDb;
+use Kata\Kata03\Fraud;
 
 class LoginDbTest extends \PHPUnit_Framework_TestCase {
 
@@ -40,6 +41,19 @@ class LoginDbTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(2, $loginDb->getUsernameFailedLoginCount());
 
 
+    }
+
+    public function testIncreaseIpCounterBy() {
+
+        $ip ='192.168.1.1';
+        $country = 'HU';
+        $username = 'kolos';
+
+        $loginDb = new LoginDb();
+        $loginDb->setEnvIpCountryAndLastUser($ip, $country, $username);
+        $this->assertEquals(2, $loginDb->getIpFailedLoginCount()); // we expect 2 because of previous test
+        $loginDb->increaseIpCounterBy(76);
+        $this->assertEquals(78, $loginDb->getIpFailedLoginCount());
     }
 
 /*    //  public function

@@ -54,5 +54,8 @@ class LoginDb {
         return 0;
     }
 
+    public function increaseIpCounterBy($increaseBy) {
+        $this->ipCounter->increase((int) $increaseBy);
+    }
 
 }

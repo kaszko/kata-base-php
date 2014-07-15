@@ -17,6 +17,7 @@ class Fraud {
     private $countryLimit = 1000;
     private $usernameLimit = 3;
 
+    private $country = '';
 
     /**
      * @var LoginDb
@@ -41,6 +42,25 @@ class Fraud {
             return true;
         }
         return false;
+    }
+
+    public function getIpLimit() {
+        return $this->ipLimit;
+    }
+
+    public function logFailedLoginOfUserWithRegistrationCountry($username, $regCountry) {
+        if ($this->country != '' && $this->country != $regCountry) {
+            // implement setting to limit, we need a new func and a new test
+            $this->loginDb->increaseIpCounterBy($this->ipLimit);
+        }
+        else {
+            $this->loginDb->logFailedLoginOfUserWithRegistrationCountry($username, $regCountry);
+        }
+    }
+
+    public function setEnvIpCountryAndLastUser($ip, $country, $username) {
+        $this->loginDb->setEnvIpCountryAndLastUser($ip, $country, $username);
+        $this->country = $country;
     }
 
 } 

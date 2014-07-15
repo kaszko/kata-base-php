@@ -11,8 +11,8 @@ namespace Kata\Kata03;
 class Counter {
     private $_count = 0;
 
-    public function increase() {
-        $this->_count++;
+    public function increase($increaseBy = 1) {
+        $this->_count += (int) $increaseBy;
     }
 
     public function getCount() {

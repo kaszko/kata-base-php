@@ -34,5 +34,12 @@ class CounterTest extends \PHPUnit_Framework_TestCase {
         }
         return $array;
     }
+
+    public function testCountBy() {
+        $counter = new Counter();
+        $this->assertEquals(0, $counter->getCount());
+        $counter->increase(99);
+        $this->assertEquals(99, $counter->getCount());
+    }
 }
  

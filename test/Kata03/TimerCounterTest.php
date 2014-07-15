@@ -147,6 +147,13 @@ class TimerCounterTest extends \PHPUnit_Framework_TestCase {
         $counter->setTimeOut($invalidTimeOut);
     }
 
+    public function testIncreaseBy() {
+        $counter = new TimerCounter();
+        $this->assertEquals(0, $counter->getCount());
+        $counter->increase(99);
+        $this->assertEquals(99, $counter->getCount());
+    }
+
     ////////////////////////////////
 
     public function setTimeBlockErrorDataProvider() {

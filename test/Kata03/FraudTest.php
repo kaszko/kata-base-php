@@ -9,6 +9,7 @@
 namespace Kata\Test\Kata03;
 
 use Kata\Kata03\Fraud;
+use Kata\Kata03\LoginDb;
 
 class FraudTest extends \PHPUnit_Framework_TestCase {
 
@@ -93,6 +94,28 @@ class FraudTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(true, $fraud->showCaptcha());
     }
 
+    public function testUserCountryDiff() {
 
+        $ip ='192.168.1.1';
+        $country = 'HU';
+        $username = 'kolos';
+
+        $fraud = new Fraud();
+
+        $loginDb = new LoginDb();
+        $fraud->setLoginDb($loginDb);
+
+        $fraud->setEnvIpCountryAndLastUser($ip, $country, $username);
+
+
+        $this->assertEquals(0, $loginDb->getIpFailedLoginCount());
+        $this->assertEquals(0, $loginDb->getRangeFailedLoginCount());
+        $this->assertEquals(0, $loginDb->getCountryFailedLoginCount());
+        $this->assertEquals(0, $loginDb->getUsernameFailedLoginCount());
+
+        $fraud->logFailedLoginOfUserWithRegistrationCountry('kolos', 'DE');
+
+        $this->assertEquals($fraud->getIpLimit(), $loginDb->getIpFailedLoginCount());
+    }
 }
  

@@ -58,7 +58,7 @@ class TimerCounter extends Counter {
         $this->_timeOut = $timeOut;
     }
 
-    public function increase() {
+    public function increase($increaseBy = 1) {
         $timeBlockKey = Helper::getTimeBlockKeyFromUnixtime(time(), $this->_timeBlockSize);
         if (!isset($this->_timeBlocksCounters[$timeBlockKey])) {
             /**
@@ -66,7 +66,7 @@ class TimerCounter extends Counter {
              */
             $this->_timeBlocksCounters[$timeBlockKey] = new Counter();
         }
-        $this->_timeBlocksCounters[$timeBlockKey]->increase();
+        $this->_timeBlocksCounters[$timeBlockKey]->increase($increaseBy);
     }
 
     public function getCount() {
