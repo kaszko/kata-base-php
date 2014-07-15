@@ -1,6 +1,7 @@
 <?php
 /**
- * Created by PhpStorm.
+ * Common helper.
+ *
  * User: kaszko
  * Date: 7/14/2014
  * Time: 11:48 PM

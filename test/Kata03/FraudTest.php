@@ -159,6 +159,10 @@ class FraudTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(true, $fraud->showCaptcha());
     }
 
+    public function testOnlyIncreaseIpIfShowCaptchaWithMock() {
+
+    }
+
     public function testOnlyIncreaseIpIfShowCaptcha() {
 
         $ip ='192.168.1.1';

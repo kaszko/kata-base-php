@@ -1,6 +1,7 @@
 <?php
 /**
- * Created by PhpStorm.
+ * Core fraud logic.
+ *
  * User: kaszko
  * Date: 7/15/2014
  * Time: 6:15 PM

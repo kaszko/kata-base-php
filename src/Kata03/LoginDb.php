@@ -1,6 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
+ * Logindb to store login history.
+ * Here we can implement data persist.
+ *
  * User: kaszko
  * Date: 7/12/2014
  * Time: 11:08 PM

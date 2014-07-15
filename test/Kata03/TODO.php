@@ -14,5 +14,6 @@ class TODO {
  * DONE - validator kiszervezes
  * - counter-en settime hivasok csak init utan mehetnek amit nincs adat
  * - timing funkcionalitast felvinni a timerregistry-be
+ *
  */
 } 

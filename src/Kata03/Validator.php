@@ -1,6 +1,7 @@
 <?php
 /**
- * Created by PhpStorm.
+ * Some validator helper.
+ *
  * User: kaszko
  * Date: 7/13/2014
  * Time: 12:11 PM

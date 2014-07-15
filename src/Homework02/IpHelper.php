@@ -1,6 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
+ * Ip helper.
  * User: kaszko
  * Date: 7/15/2014
  * Time: 5:28 PM

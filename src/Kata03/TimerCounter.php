@@ -1,6 +1,7 @@
 <?php
 /**
- * Created by PhpStorm.
+ * Counter register with timeout function.
+ *
  * User: kaszko
  * Date: 7/12/2014
  * Time: 11:39 PM

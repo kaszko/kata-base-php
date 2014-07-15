@@ -1,6 +1,7 @@
 <?php
 /**
- * Created by PhpStorm.
+ * Simple stupid counter.
+ *
  * User: kaszko
  * Date: 7/12/2014
  * Time: 11:23 PM

@@ -1,6 +1,7 @@
 <?php
 /**
- * Created by PhpStorm.
+ * Counter registry. We use this instead of database.
+ *
  * User: kaszko
  * Date: 7/13/2014
  * Time: 11:28 AM
