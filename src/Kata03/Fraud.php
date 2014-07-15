@@ -28,7 +28,7 @@ class Fraud {
         $this->loginDb = $loginDb;
     }
 
-    public function showCaptcha($lastLoginUsername = '') {
+    public function showCaptcha() {
         if ($this->loginDb->getIpFailedLoginCount() >= $this->ipLimit) {
             return true;
         }
@@ -49,7 +49,10 @@ class Fraud {
     }
 
     public function logFailedLoginOfUserWithRegistrationCountry($username, $regCountry) {
-        if ($this->country != '' && $this->country != $regCountry) {
+        if ($this->showCaptcha()) {
+            $this->loginDb->increaseIpCounterBy(1);
+        }
+        elseif ($this->country != '' && $this->country != $regCountry) {
             // implement setting to limit, we need a new func and a new test
             $this->loginDb->increaseIpCounterBy($this->ipLimit);
         }

@@ -41,5 +41,20 @@ class CounterRegistryTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(0, $counter3->getCount());
 
     }
+
+    public function testReset() {
+        $dataType = CounterRegistry::DATATYPE_IP;
+        $dataValue = '192.168.0.1';
+        $counter = CounterRegistry::getCounterFor($dataType, $dataValue);
+        $this->assertTrue($counter instanceof TimerCounter);
+        $this->assertEquals(0, $counter->getCount());
+
+        $counter->increase();
+        $this->assertEquals(1, $counter->getCount());
+
+        CounterRegistry::resetCounters();
+        $counter = CounterRegistry::getCounterFor($dataType, $dataValue);
+        $this->assertEquals(0, $counter->getCount());
+    }
 }
  

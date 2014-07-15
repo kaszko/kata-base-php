@@ -37,6 +37,11 @@ class CounterRegistry {
         return $counter;
     }
 
+    public static function resetCounters() {
+        self::$_counters = array();
+    }
+
+
     /**
      * we trust in it
      *
@@ -47,4 +52,4 @@ class CounterRegistry {
     private static function _createHashKey($dataType, $dataValue) {
         return md5(serialize(array($dataType, $dataValue)));
     }
-} 
+}
