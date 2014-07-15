@@ -13,12 +13,98 @@ use Kata\Kata03\LoginDb;
 
 class FraudTest extends \PHPUnit_Framework_TestCase {
 
-    public function testIpTooMuch() {
+//    public function testIpTooMuch() {
+//
+//        $mockedLoginDb = $this->getMock('\\Kata\\Kata03\\LoginDb');
+//        $mockedLoginDb->expects($this->any())
+//            ->method('getIpFailedLoginCount')
+//            ->will($this->returnValue(1));
+//
+//        $fraud = new Fraud();
+//        $fraud->setLoginDb($mockedLoginDb);
+//        $this->assertEquals(false, $fraud->showCaptcha());
+//
+//        $mockedLoginDb = $this->getMock('\\Kata\\Kata03\\LoginDb');
+//        $mockedLoginDb->expects($this->any())
+//            ->method('getIpFailedLoginCount')
+//            ->will($this->returnValue(5));
+//
+//        $fraud = new Fraud();
+//        $fraud->setLoginDb($mockedLoginDb);
+//        $this->assertEquals(true, $fraud->showCaptcha());
+//    }
+//
+//    public function testIpRangeTooMuch() {
+//        $mockedLoginDb = $this->getMock('\\Kata\\Kata03\\LoginDb');
+//        $mockedLoginDb->expects($this->any())
+//            ->method('getRangeFailedLoginCount')
+//            ->will($this->returnValue(499));
+//
+//        $fraud = new Fraud();
+//        $fraud->setLoginDb($mockedLoginDb);
+//        $this->assertEquals(false, $fraud->showCaptcha());
+//
+//        $mockedLoginDb = $this->getMock('\\Kata\\Kata03\\LoginDb');
+//        $mockedLoginDb->expects($this->any())
+//            ->method('getRangeFailedLoginCount')
+//            ->will($this->returnValue(501));
+//
+//        $fraud = new Fraud();
+//        $fraud->setLoginDb($mockedLoginDb);
+//        $this->assertEquals(true, $fraud->showCaptcha());
+//    }
+//
+//    public function testCountryTooMuch() {
+//        $mockedLoginDb = $this->getMock('\\Kata\\Kata03\\LoginDb');
+//        $mockedLoginDb->expects($this->any())
+//            ->method('getCountryFailedLoginCount')
+//            ->will($this->returnValue(999));
+//
+//        $fraud = new Fraud();
+//        $fraud->setLoginDb($mockedLoginDb);
+//        $this->assertEquals(false, $fraud->showCaptcha());
+//
+//        $mockedLoginDb = $this->getMock('\\Kata\\Kata03\\LoginDb');
+//        $mockedLoginDb->expects($this->any())
+//            ->method('getCountryFailedLoginCount')
+//            ->will($this->returnValue(1001));
+//
+//        $fraud = new Fraud();
+//        $fraud->setLoginDb($mockedLoginDb);
+//        $this->assertEquals(true, $fraud->showCaptcha());
+//    }
+//
+//    public function testUserTooMuch() {
+//        $mockedLoginDb = $this->getMock('\\Kata\\Kata03\\LoginDb');
+//        $mockedLoginDb->expects($this->any())
+//            ->method('getUsernameFailedLoginCount')
+//            ->will($this->returnValue(2));
+//
+//        $fraud = new Fraud();
+//        $fraud->setLoginDb($mockedLoginDb);
+//        $this->assertEquals(false, $fraud->showCaptcha());
+//
+//        $mockedLoginDb = $this->getMock('\\Kata\\Kata03\\LoginDb');
+//        $mockedLoginDb->expects($this->any())
+//            ->method('getUsernameFailedLoginCount')
+//            ->will($this->returnValue(4));
+//
+//        $fraud = new Fraud();
+//        $fraud->setLoginDb($mockedLoginDb);
+//        $this->assertEquals(true, $fraud->showCaptcha());
+//    }
 
+    /**
+     * @param $functionName
+     * @param $underLimit
+     * @param $aboveLimit
+     * @dataProvider tooMuchDataProvider
+     */
+    public function testTooMuchData($functionName, $underLimit, $aboveLimit) {
         $mockedLoginDb = $this->getMock('\\Kata\\Kata03\\LoginDb');
         $mockedLoginDb->expects($this->any())
-            ->method('getIpFailedLoginCount')
-            ->will($this->returnValue(1));
+            ->method($functionName)
+            ->will($this->returnValue($underLimit));
 
         $fraud = new Fraud();
         $fraud->setLoginDb($mockedLoginDb);
@@ -26,73 +112,26 @@ class FraudTest extends \PHPUnit_Framework_TestCase {
 
         $mockedLoginDb = $this->getMock('\\Kata\\Kata03\\LoginDb');
         $mockedLoginDb->expects($this->any())
-            ->method('getIpFailedLoginCount')
-            ->will($this->returnValue(5));
+            ->method($functionName)
+            ->will($this->returnValue($aboveLimit));
 
         $fraud = new Fraud();
         $fraud->setLoginDb($mockedLoginDb);
         $this->assertEquals(true, $fraud->showCaptcha());
     }
 
-    public function testIpRangeTooMuch() {
-        $mockedLoginDb = $this->getMock('\\Kata\\Kata03\\LoginDb');
-        $mockedLoginDb->expects($this->any())
-            ->method('getRangeFailedLoginCount')
-            ->will($this->returnValue(499));
 
-        $fraud = new Fraud();
-        $fraud->setLoginDb($mockedLoginDb);
-        $this->assertEquals(false, $fraud->showCaptcha());
 
-        $mockedLoginDb = $this->getMock('\\Kata\\Kata03\\LoginDb');
-        $mockedLoginDb->expects($this->any())
-            ->method('getRangeFailedLoginCount')
-            ->will($this->returnValue(501));
-
-        $fraud = new Fraud();
-        $fraud->setLoginDb($mockedLoginDb);
-        $this->assertEquals(true, $fraud->showCaptcha());
+    public function tooMuchDataProvider() {
+        return array(
+            array('getCountryFailedLoginCount', 999, 1001),
+            array('getRangeFailedLoginCount', 499, 501),
+            array('getUsernameFailedLoginCount', 2, 4),
+            array('getIpFailedLoginCount', 1, 5)
+        );
     }
 
-    public function testCountryTooMuch() {
-        $mockedLoginDb = $this->getMock('\\Kata\\Kata03\\LoginDb');
-        $mockedLoginDb->expects($this->any())
-            ->method('getCountryFailedLoginCount')
-            ->will($this->returnValue(999));
 
-        $fraud = new Fraud();
-        $fraud->setLoginDb($mockedLoginDb);
-        $this->assertEquals(false, $fraud->showCaptcha());
-
-        $mockedLoginDb = $this->getMock('\\Kata\\Kata03\\LoginDb');
-        $mockedLoginDb->expects($this->any())
-            ->method('getCountryFailedLoginCount')
-            ->will($this->returnValue(1001));
-
-        $fraud = new Fraud();
-        $fraud->setLoginDb($mockedLoginDb);
-        $this->assertEquals(true, $fraud->showCaptcha());
-    }
-
-    public function testUserTooMuch() {
-        $mockedLoginDb = $this->getMock('\\Kata\\Kata03\\LoginDb');
-        $mockedLoginDb->expects($this->any())
-            ->method('getUsernameFailedLoginCount')
-            ->will($this->returnValue(2));
-
-        $fraud = new Fraud();
-        $fraud->setLoginDb($mockedLoginDb);
-        $this->assertEquals(false, $fraud->showCaptcha());
-
-        $mockedLoginDb = $this->getMock('\\Kata\\Kata03\\LoginDb');
-        $mockedLoginDb->expects($this->any())
-            ->method('getUsernameFailedLoginCount')
-            ->will($this->returnValue(4));
-
-        $fraud = new Fraud();
-        $fraud->setLoginDb($mockedLoginDb);
-        $this->assertEquals(true, $fraud->showCaptcha());
-    }
 
     public function testUserCountryDiff() {
 
@@ -116,6 +155,7 @@ class FraudTest extends \PHPUnit_Framework_TestCase {
         $fraud->logFailedLoginOfUserWithRegistrationCountry('kolos', 'DE');
 
         $this->assertEquals($fraud->getIpLimit(), $loginDb->getIpFailedLoginCount());
+        $this->assertEquals(true, $fraud->showCaptcha());
     }
 }
  
