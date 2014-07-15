@@ -27,7 +27,7 @@ class Fraud {
         $this->loginDb = $loginDb;
     }
 
-    public function showCaptcha() {
+    public function showCaptcha($lastLoginUsername = '') {
         if ($this->loginDb->getIpFailedLoginCount() >= $this->ipLimit) {
             return true;
         }
@@ -37,7 +37,9 @@ class Fraud {
         if ($this->loginDb->getCountryFailedLoginCount() >= $this->countryLimit) {
             return true;
         }
-
+        if ($this->loginDb->getUsernameFailedLoginCount() >= $this->usernameLimit) {
+            return true;
+        }
         return false;
     }
 

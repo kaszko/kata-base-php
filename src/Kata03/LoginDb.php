@@ -15,13 +15,16 @@ class LoginDb {
     private $ipCounter = null;
     private $rangeCounter = null;
     private $countryCounter = null;
+    private $userCounter = null;
 
-
-    public function setEnvIpAndCountry($ip, $country) {
+    public function setEnvIpCountryAndLastUser($ip, $country, $lastusername) {
         $range = Helper::getRangeFromIp($ip);
         $this->ipCounter = CounterRegistry::getCounterFor('ip', $ip);
         $this->countryCounter = CounterRegistry::getCounterFor('country', $country);
         $this->rangeCounter = CounterRegistry::getCounterFor('range', $range);
+        if ($lastusername != '') {
+            $this->userCounter = CounterRegistry::getCounterFor('username', $lastusername);
+        }
     }
 
     public function logFailedLoginOfUserWithRegistrationCountry($username, $registrationCountry) {
@@ -44,9 +47,11 @@ class LoginDb {
     public function getCountryFailedLoginCount() {
         return $this->countryCounter->getCount();
     }
-    public function getUsernameFailedLoginCount($username) {
-        $usernameCounter = CounterRegistry::getCounterFor('username', $username);
-        return $usernameCounter->getCount();
+    public function getUsernameFailedLoginCount() {
+        if ($this->userCounter !== null && $this->userCounter instanceof TimerCounter) {
+            return $this->userCounter->getCount();
+        }
+        return 0;
     }
 
 

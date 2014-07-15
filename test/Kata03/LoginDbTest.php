@@ -18,21 +18,26 @@ class LoginDbTest extends \PHPUnit_Framework_TestCase {
         $username = 'kolos';
 
         $loginDb = new LoginDb();
-        $loginDb->setEnvIpAndCountry($ip, $country);
+        $loginDb->setEnvIpCountryAndLastUser($ip, $country, $username);
+
+        $this->assertEquals(0, $loginDb->getIpFailedLoginCount());
+        $this->assertEquals(0, $loginDb->getRangeFailedLoginCount());
+        $this->assertEquals(0, $loginDb->getCountryFailedLoginCount());
+        $this->assertEquals(0, $loginDb->getUsernameFailedLoginCount());
 
         $loginDb->logFailedLoginOfUserWithRegistrationCountry('kolos', 'HU');
 
         $this->assertEquals(1, $loginDb->getIpFailedLoginCount());
         $this->assertEquals(1, $loginDb->getRangeFailedLoginCount());
         $this->assertEquals(1, $loginDb->getCountryFailedLoginCount());
-        $this->assertEquals(1, $loginDb->getUsernameFailedLoginCount('kolos'));
+        $this->assertEquals(1, $loginDb->getUsernameFailedLoginCount());
 
         $loginDb->logFailedLoginOfUserWithRegistrationCountry('kolos', 'HU');
 
         $this->assertEquals(2, $loginDb->getIpFailedLoginCount());
         $this->assertEquals(2, $loginDb->getRangeFailedLoginCount());
         $this->assertEquals(2, $loginDb->getCountryFailedLoginCount());
-        $this->assertEquals(2, $loginDb->getUsernameFailedLoginCount('kolos'));
+        $this->assertEquals(2, $loginDb->getUsernameFailedLoginCount());
 
 
     }

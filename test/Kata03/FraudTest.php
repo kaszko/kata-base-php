@@ -11,6 +11,7 @@ namespace Kata\Test\Kata03;
 use Kata\Kata03\Fraud;
 
 class FraudTest extends \PHPUnit_Framework_TestCase {
+
     public function testIpTooMuch() {
 
         $mockedLoginDb = $this->getMock('\\Kata\\Kata03\\LoginDb');
@@ -66,6 +67,26 @@ class FraudTest extends \PHPUnit_Framework_TestCase {
         $mockedLoginDb->expects($this->any())
             ->method('getCountryFailedLoginCount')
             ->will($this->returnValue(1001));
+
+        $fraud = new Fraud();
+        $fraud->setLoginDb($mockedLoginDb);
+        $this->assertEquals(true, $fraud->showCaptcha());
+    }
+
+    public function testUserTooMuch() {
+        $mockedLoginDb = $this->getMock('\\Kata\\Kata03\\LoginDb');
+        $mockedLoginDb->expects($this->any())
+            ->method('getUsernameFailedLoginCount')
+            ->will($this->returnValue(2));
+
+        $fraud = new Fraud();
+        $fraud->setLoginDb($mockedLoginDb);
+        $this->assertEquals(false, $fraud->showCaptcha());
+
+        $mockedLoginDb = $this->getMock('\\Kata\\Kata03\\LoginDb');
+        $mockedLoginDb->expects($this->any())
+            ->method('getUsernameFailedLoginCount')
+            ->will($this->returnValue(4));
 
         $fraud = new Fraud();
         $fraud->setLoginDb($mockedLoginDb);
