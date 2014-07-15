@@ -11,8 +11,15 @@ namespace Kata\Kata03;
 use Kata\Kata03\LoginDb;
 
 class Fraud {
+
+    private $ipLimit = 3;
+    private $ipRangeLimit = 500;
+    private $countryLimit = 1000;
+    private $usernameLimit = 3;
+
+
     /**
-     * @var Kata\Kata03\LoginDb
+     * @var LoginDb
      */
     private $loginDb;
 
@@ -21,9 +28,16 @@ class Fraud {
     }
 
     public function showCaptcha() {
-        if ($this->loginDb->getIpFailedLoginCount() >= 3) {
+        if ($this->loginDb->getIpFailedLoginCount() >= $this->ipLimit) {
             return true;
         }
+        if ($this->loginDb->getRangeFailedLoginCount() >= $this->ipRangeLimit) {
+            return true;
+        }
+        if ($this->loginDb->getCountryFailedLoginCount() >= $this->countryLimit) {
+            return true;
+        }
+
         return false;
     }
 

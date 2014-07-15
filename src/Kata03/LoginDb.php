@@ -12,35 +12,41 @@ use Kata\Kata03\TimerCounter;
 use Kata\Kata03\Helper;
 
 class LoginDb {
-    private $_ipCounter = null;
-    private $_rangeCounter = null;
-    private $_countryCounter = null;
-
+    private $ipCounter = null;
+    private $rangeCounter = null;
+    private $countryCounter = null;
 
 
     public function setEnvIpAndCountry($ip, $country) {
         $range = Helper::getRangeFromIp($ip);
-        $this->_ipCounter = CounterRegistry::getCounterFor('ip', $ip);
-        $this->_countryCounter = CounterRegistry::getCounterFor('country', $country);
-        $this->_rangeCounter = CounterRegistry::getCounterFor('range', $range);
+        $this->ipCounter = CounterRegistry::getCounterFor('ip', $ip);
+        $this->countryCounter = CounterRegistry::getCounterFor('country', $country);
+        $this->rangeCounter = CounterRegistry::getCounterFor('range', $range);
     }
 
     public function logFailedLoginOfUserWithRegistrationCountry($username, $registrationCountry) {
-        $this->_ipCounter->increase();
-        $this->_rangeCounter->increase();
-        $this->_countryCounter->increase();
+        $this->ipCounter->increase();
+        $this->rangeCounter->increase();
+        $this->countryCounter->increase();
+
+        $usernameCounter = CounterRegistry::getCounterFor('username', $username);
+        $usernameCounter->increase();
     }
 
     public function getIpFailedLoginCount() {
-        return $this->_ipCounter->getCount();
+        return $this->ipCounter->getCount();
     }
 
     public function getRangeFailedLoginCount() {
-        return $this->_rangeCounter->getCount();
+        return $this->rangeCounter->getCount();
     }
 
     public function getCountryFailedLoginCount() {
-        return $this->_countryCounter->getCount();
+        return $this->countryCounter->getCount();
+    }
+    public function getUsernameFailedLoginCount($username) {
+        $usernameCounter = CounterRegistry::getCounterFor('username', $username);
+        return $usernameCounter->getCount();
     }
 
 

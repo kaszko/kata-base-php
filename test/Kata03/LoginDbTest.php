@@ -25,13 +25,14 @@ class LoginDbTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(1, $loginDb->getIpFailedLoginCount());
         $this->assertEquals(1, $loginDb->getRangeFailedLoginCount());
         $this->assertEquals(1, $loginDb->getCountryFailedLoginCount());
+        $this->assertEquals(1, $loginDb->getUsernameFailedLoginCount('kolos'));
 
         $loginDb->logFailedLoginOfUserWithRegistrationCountry('kolos', 'HU');
 
         $this->assertEquals(2, $loginDb->getIpFailedLoginCount());
         $this->assertEquals(2, $loginDb->getRangeFailedLoginCount());
         $this->assertEquals(2, $loginDb->getCountryFailedLoginCount());
-
+        $this->assertEquals(2, $loginDb->getUsernameFailedLoginCount('kolos'));
 
 
     }
