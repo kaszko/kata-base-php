@@ -10,6 +10,7 @@ namespace Kata\Test\Kata03;
 
 use Kata\Kata03\TimerCounter;
 use Kata\Kata03\Counter;
+use Kata\Kata03\Helper;
 
 class TimerCounterTest extends \PHPUnit_Framework_TestCase {
 
@@ -77,9 +78,6 @@ class TimerCounterTest extends \PHPUnit_Framework_TestCase {
         $counter->setTimeBlockSize(300);
         $counter->setTimeOut(3600);
 
-        $method = new \ReflectionMethod('\\Kata\\Kata03\\TimerCounter', '_getTimeBlockKeyForUnixTime');
-        $method->setAccessible(true);
-
         $counterRefl = new \ReflectionClass('\\Kata\\Kata03\\Counter');
         $rProp = $counterRefl->getProperty('_count');
         $rProp->setAccessible(true);
@@ -92,9 +90,9 @@ class TimerCounterTest extends \PHPUnit_Framework_TestCase {
         $rProp->setValue($counter3, 55);
 
         $mockTimeBlocks = array(
-            $method->invoke($counter, time() - 10000) => $counter1, // timed out row
-            $method->invoke($counter, time() - 1000) => $counter2,
-            $method->invoke($counter, time() - 300) => $counter3,
+            Helper::getTimeBlockKeyFromUnixtime(time() - 10000, 300) => $counter1, // timed out row
+            Helper::getTimeBlockKeyFromUnixtime(time() - 1000, 300) => $counter2,
+            Helper::getTimeBlockKeyFromUnixtime(time() - 300, 300) => $counter3,
         );
 
         $r = new \ReflectionClass('\\Kata\\Kata03\\TimerCounter');
@@ -109,9 +107,6 @@ class TimerCounterTest extends \PHPUnit_Framework_TestCase {
 
     public function testTimeOutWithMock() {
 
-        $method = new \ReflectionMethod('\\Kata\\Kata03\\TimerCounter', '_getTimeBlockKeyForUnixTime');
-        $method->setAccessible(true);
-
         $counter = new TimerCounter();
         $counter->setTimeBlockSize(300);
         $counter->setTimeOut(3600);
@@ -125,7 +120,8 @@ class TimerCounterTest extends \PHPUnit_Framework_TestCase {
 
         foreach ($counterDefs as $unixTime => $countValue) {
 
-            $counterIndex = $method->invoke($counter, $unixTime);
+            $counterIndex = Helper::getTimeBlockKeyFromUnixtime($unixTime, 300);
+
             $counters[$counterIndex] = $this->getMock('\\Kata\\Kata03\\Counter');
             $counters[$counterIndex]->expects($this->any())
                 ->method('getCount')

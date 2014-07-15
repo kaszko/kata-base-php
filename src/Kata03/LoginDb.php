@@ -32,15 +32,15 @@ class LoginDb {
     }
 
     public function getIpFailedLoginCount() {
-        $this->_ipCounter->getCount();
+        return $this->_ipCounter->getCount();
     }
 
     public function getRangeFailedLoginCount() {
-        $this->_rangeCounter->getCount();
+        return $this->_rangeCounter->getCount();
     }
 
     public function getCountryFailedLoginCount() {
-        $this->_countryCounter->getCount();
+        return $this->_countryCounter->getCount();
     }
 
 
