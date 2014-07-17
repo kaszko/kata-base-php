@@ -55,7 +55,7 @@ class WalkerTest extends \PHPUnit_Framework_TestCase {
      * - X-edik vegigjaras eseteben azon ajtokat nyitjuk ki, aminek sorszama oszthato X-el
      * - minden ajtot pontosan az osztoinak szama alkalommal kilicselunk meg
      * - a vegen egy ajto akkor lesz nyitva, ha paratlan szamu kilincseles tortenik
-     * - a vegen egy ajto akkor lesz nyitva, ha az osztoinak szama paros
+     * - a vegen egy ajto akkor lesz nyitva, ha az osztoinak szama paratlan (mert 1nel es onmaganal mindig kinyitod)
      * - az osztok szama = primtenyezos felbontas hatvanykitevo+1 szorzata
      * - egy szorzat akkor es csak akkor paratlan, ha minden szorzoja paratlan
      * - szorzo = hatvanykitevo + 1 = paratlan <=> hatvanykitevo paros
