@@ -49,6 +49,20 @@ class WalkerTest extends \PHPUnit_Framework_TestCase {
         $walker->walkOnEvery(2);
     }
 
+    /**
+     * Az integracios teszt vart eredemenyek meghataraozasanal a kovetkezoket hasznaltam:
+     *
+     * - X-edik vegigjaras eseteben azon ajtokat nyitjuk ki, aminek sorszama oszthato X-el
+     * - minden ajtot pontosan az osztoinak szama alkalommal kilicselunk meg
+     * - a vegen egy ajto akkor lesz nyitva, ha paratlan szamu kilincseles tortenik
+     * - a vegen egy ajto akkor lesz nyitva, ha az osztoinak szama paros
+     * - az osztok szama = primtenyezos felbontas hatvanykitevo+1 szorzata
+     * - egy szorzat akkor es csak akkor paratlan, ha minden szorzoja paratlan
+     * - szorzo = hatvanykitevo + 1 = paratlan <=> hatvanykitevo paros
+     * - tehat a primtenyezos felbontas minden hatvanykitevoje paros
+     * - tehat a szam negyzetszam
+     * - tehat egy ajto akkor lesz a bejaras utan nyitva, ha a sorszama negyzetszam
+     */
     public function testIntegration() {
 
         $walker = new Walker();
