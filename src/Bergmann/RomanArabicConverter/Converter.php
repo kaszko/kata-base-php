@@ -15,7 +15,6 @@ class Converter {
 
         $bufferValue = 0;
         $romanValue = 0;
-        $charValue = 0; // int value of actual character
         $lastCharValue = 0;
 
         for ($x=0; $x<strlen($roman); $x++) {
