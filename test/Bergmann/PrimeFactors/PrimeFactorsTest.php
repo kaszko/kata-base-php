@@ -6,9 +6,9 @@
  * Time: 10:59 AM
  */
 
-namespace Kata\Test\Bergman\PrimeFactors;
+namespace Kata\Test\Bergmann\PrimeFactors;
 
-use Kata\Bergman\PrimeFactors;
+use Kata\Bergmann\PrimeFactors\PrimeFactors;
 
 class PrimeFactorsTest extends \PHPUnit_Framework_TestCase {
     private $primeFactors;

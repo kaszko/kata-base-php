@@ -6,7 +6,7 @@
  * Time: 11:00 AM
  */
 
-use Kata\Bergman\PrimeFactors;
+namespace Kata\Bergmann\PrimeFactors;
 
 class PrimeFactors {
     public function generate() {

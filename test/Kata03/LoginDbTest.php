@@ -114,7 +114,7 @@ class LoginDbTest extends \PHPUnit_Framework_TestCase {
 
     public function setUp() {
         $this->getConnection()->exec(self::DB_SCHEMA);
-        echo "setup\n";
+        echo "setup\Bergmann";
     }
 
     public function testValami() {
@@ -148,7 +148,7 @@ class LoginDbTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function tearDown() {
-        echo "teardown\n";
+        echo "teardown\Bergmann";
         $this->getConnection()->exec("DELETE FROM failed_logins");
     }*/
 

@@ -6,9 +6,9 @@
  * Time: 11:10 AM
  */
 
-namespace Kata\Test\Bergman\RomainArabicConverter;
+namespace Kata\Test\Bergmann\RomanArabicConverter;
 
-use Kata\Bergman\RomainArabicConverter\Converter;
+use Kata\Bergmann\RomanArabicConverter\Converter;
 
 class ConverterTest extends \PHPUnit_Framework_TestCase {
 
@@ -23,10 +23,10 @@ class ConverterTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @dataProvider romainArabicPairProvider
+     * @dataProvider romanArabicPairProvider
      */
-    public function testOne($romain, $arabic) {
-        $this->assertEquals($romain, $this->converter->convertToArabic($arabic));
+    public function testOne($roman, $arabic) {
+        $this->assertEquals($roman, $this->converter->convertToArabic($arabic));
 //        $this->assertEquals(1, $this->converter->convertToArabic('I'));
 //        $this->assertEquals(2, $this->converter->convertToArabic('II'));
 //        $this->assertEquals(3, $this->converter->convertToArabic('III'));
@@ -57,7 +57,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    public function romainArabicPairProvider() {
+    public function romanArabicPairProvider() {
         return array(
             array(1, 'I'),
             array(2, 'II'),
@@ -82,18 +82,19 @@ class ConverterTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @expectedException Exception
-     * @dataProvider invalidRomainNumberProvider
+     * @dataProvider invalidRomanNumberProvider
      *
      */
-    public function testInvalidRomainNumber($invalidRomainNumber) {
-        $this->assertEquals(218, $this->converter->convertToArabic($invalidRomainNumber));
+    public function testInvalidRomanNumber($invalidRomanNumber) {
+        $this->assertEquals(218, $this->converter->convertToArabic($invalidRomanNumber));
     }
 
-    public function invalidRomainNumberProvider() {
+    public function invalidRomanNumberProvider() {
         return array(
             //array(''),
             array('IIX'),
             array('OOA'),
+            array('XVX'),
         );
     }
 }

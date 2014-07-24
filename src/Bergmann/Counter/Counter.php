@@ -6,7 +6,7 @@
  * Time: 9:15 AM
  */
 
-namespace Kata\Bergman\Counter;
+namespace Kata\Bergmann\Counter;
 
 class Counter
 {

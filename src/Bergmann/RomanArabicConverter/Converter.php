@@ -6,34 +6,37 @@
  * Time: 11:12 AM
  */
 
-namespace Kata\Bergman\RomainArabicConverter;
+namespace Kata\Bergmann\RomanArabicConverter;
 
-
-use SebastianBergmann\Exporter\Exception;
 
 class Converter {
-    public function convertToArabic($romain) {
+    public function convertToArabic($roman) {
         //return 1;
 
         $bufferValue = 0;
-        $romainValue = 0;
+        $romanValue = 0;
         $charValue = 0; // int value of actual character
         $lastCharValue = 0;
 
-        for ($x=0; $x<strlen($romain); $x++) {
-            $actualChar = substr($romain, $x, 1);
+        for ($x=0; $x<strlen($roman); $x++) {
+            $actualChar = substr($roman, $x, 1);
             $charValue = $this->getCharIntValue($actualChar);
 
             if ($charValue == $lastCharValue || $lastCharValue == 0) {
                 $bufferValue += $charValue;
             }
             else if ($charValue < $lastCharValue) {
-                $romainValue += $bufferValue;
+                $romanValue += $bufferValue;
                 $bufferValue = $charValue;
             }
             else if ($charValue > $lastCharValue) {
+                // more than 1 lower value before
                 if ($bufferValue != $lastCharValue) {
-                    throw new \Exception('Invalid romain number!');
+                    throw new \Exception('Invalid roman number!');
+                }
+                // too high lower value before
+                if ($bufferValue >= $charValue / 2) {
+                    throw new \Exception('Invalid roman number!');
                 }
                 $bufferValue = $charValue - $bufferValue;
             }
@@ -42,9 +45,9 @@ class Converter {
 
         }
 
-        $romainValue += $bufferValue;
+        $romanValue += $bufferValue;
 
-        return $romainValue;
+        return $romanValue;
     }
 
     private function getCharIntValue($char) {
@@ -69,6 +72,6 @@ class Converter {
         if ($char == 'M') {
             return 1000;
         }
-        throw new \Exception('Invalid romain character/digit');
+        throw new \Exception('Invalid roman character/digit');
     }
 } 

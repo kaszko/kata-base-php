@@ -6,9 +6,9 @@
  * Time: 9:15 AM
  */
 
-namespace Kata\Test\Bergman\Counter;
+namespace Kata\Test\Bergmann\Counter;
 
-use Kata\Bergman\Counter\Counter;
+use Kata\Bergmann\Counter\Counter;
 
 class CounterTest extends \PHPUnit_Framework_TestCase {
 
