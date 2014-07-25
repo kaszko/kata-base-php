@@ -47,8 +47,17 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
      * @throws \Kata\Bergmann\CommonCsrfToken\Exception
      */
     public function testAddSessionHandlerAgainForced(array $sessionGroup) {
+
+        $sessionGroup['sessionHandler']->expects($this->never())->method('set');
+
+        //$newSession = $this->getMock('Kata\\Bergmann\\CommonCsrfToken\\SessionHandlerInterface');
+
         $sessionGroup['session']->addSessionHandler('test', $this->sessionHandler, true);
         $this->assertTrue($sessionGroup['session']->hasSessionHandler('test'));
+
+        $sessionGroup['session']->set('testKey', 'testValue', 'test');
+
+
     }
 
     /**
@@ -78,6 +87,8 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
      */
     public function testSuccessfulGet(array $sessionGroup) {
 
+// @todo why is this working
+
 
         $sessionGroup['sessionHandler']->expects($this->once())
             ->method('set')
@@ -93,6 +104,9 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
         $this->session->get('testKey', 'testValue', 'test');
     }
 
+    /**
+     * one would be enough
+     */
     public function testWrite() {
         $sessionHandlers = array();
         for ($x=0; $x<10; $x++) {

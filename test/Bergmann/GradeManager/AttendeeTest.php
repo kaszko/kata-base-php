@@ -9,7 +9,6 @@
 namespace Kata\Test\Bergmann\GradeManager;
 
 use Kata\Bergmann\GradeManager\Attendee;
-use Kata\Bergmann\GradeManager\UniqueIdHelper;
 
 /**
  * Class AttendeeTest
