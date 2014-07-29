@@ -35,8 +35,10 @@ class TrainingAttendeeTest extends \PHPUnit_Framework_TestCase
     private $grade;
 
     protected function setUp() {
+
         $this->uniqueIdHelper = $this->getMock('Kata\\Bergmann\\GradeManager\\UniqueIdHelper');
         $this->attendee = $this->getMock('Kata\\Bergmann\\GradeManager\\Attendee', array(), array('Peter Pan Test', $this->uniqueIdHelper));
+
         $this->trainingAttendee = new TrainingAttendee($this->attendee);
 
         $this->grade = $this->getMock('Kata\\Bergmann\\GradeManager\\Grade', array(), array('999'));

@@ -15,6 +15,11 @@ class Attendee
     private $name;
     private $uniqueId;
 
+    /**
+     * @param $name
+     * @param UniqueIdHelper $uniqueIdHelper
+     * @todo pass only the value of uniq_id
+     */
     public function __construct($name, UniqueIdHelper $uniqueIdHelper)
     {
         $this->name = $name;
