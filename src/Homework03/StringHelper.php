@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: kaszko
  * Date: 7/20/2014
- * Time: 10:27 PM
+ * Time: 10:27 PM *
  */
 
 namespace Kata\Homework03;
