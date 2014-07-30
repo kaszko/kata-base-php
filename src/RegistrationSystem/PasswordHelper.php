@@ -25,7 +25,7 @@ class PasswordHelper {
     }
 
     public function hashStringWithSalt($string, $salt) {
-        return crypt($string, $salt);
+        return sha1($salt . $string . $salt);
     }
 
     public function generatePassword($plainPassword, $saltLength = 10) {
