@@ -13,11 +13,11 @@ class PasswordHelperTest extends \PHPUnit_Framework_TestCase {
 
 
     /**
-     *
+     * @param $length
+     * @dataProvider textLengthProvider
      */
-    public function testGenerateRandomString()
+    public function testGenerateRandomString($length)
     {
-        $length = 12;
         $pwHelper = new PasswordHelper;
         $randomString = $pwHelper->generateRandomString($length);
         $this->assertNotEmpty($randomString);
@@ -25,11 +25,11 @@ class PasswordHelperTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     *
+     * @param $length
+     * @dataProvider textLengthProvider
      */
-    public function testRandomStringCharacters()
+    public function testRandomStringCharacters($length)
     {
-        $length = rand(6, 64);
         $pwHelper = new PasswordHelper;
         $randomString = $pwHelper->generateRandomString($length);
         $isValidString = $this->isValidRandomString($randomString);
@@ -39,6 +39,25 @@ class PasswordHelperTest extends \PHPUnit_Framework_TestCase {
         $randomString .= '~';
         $isValidString = $this->isValidRandomString($randomString);
         $this->assertFalse($isValidString);
+    }
+
+    /**
+     * @return array
+     */
+    public function textLengthProvider()
+    {
+        return array(
+            array(rand(6, 64)), array(rand(6, 64)), array(rand(6, 64)), array(rand(6, 64)),
+            array(rand(6, 64)), array(rand(6, 64)), array(rand(6, 64)), array(rand(6, 64)),
+            array(rand(6, 64)), array(rand(6, 64)), array(rand(6, 64)), array(rand(6, 64)),
+            array(rand(6, 64)), array(rand(6, 64)), array(rand(6, 64)), array(rand(6, 64)),
+            array(rand(6, 64)), array(rand(6, 64)), array(rand(6, 64)), array(rand(6, 64)),
+            array(rand(6, 64)), array(rand(6, 64)), array(rand(6, 64)), array(rand(6, 64)),
+            array(rand(6, 64)), array(rand(6, 64)), array(rand(6, 64)), array(rand(6, 64)),
+            array(rand(6, 64)), array(rand(6, 64)), array(rand(6, 64)), array(rand(6, 64)),
+            array(rand(6, 64)), array(rand(6, 64)), array(rand(6, 64)), array(rand(6, 64)),
+            array(rand(6, 64)), array(rand(6, 64)), array(rand(6, 64)), array(rand(6, 64)),
+        );
     }
 
     /**
