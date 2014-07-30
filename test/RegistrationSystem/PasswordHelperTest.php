@@ -4,34 +4,53 @@
  * User: Pot
  * Date: 7/29/2014
  * Time: 6:49 PM
+ *
+ * PasswordHelper class tests
+ *
+ * @link https://confluence.doclerholding.com/pages/viewpage.action?pageId=52203382
  */
 
 namespace Kata\Test\RegistrationSystem;
 use Kata\RegistrationSystem\PasswordHelper;
+use Kata\RegistrationSystem\Entity\Password;
 
 class PasswordHelperTest extends \PHPUnit_Framework_TestCase {
 
+    /**
+     * @var PasswordHelper
+     */
+    private $passwordHelper;
 
     /**
+     *
+     */
+    protected function setUp()
+    {
+        $this->passwordHelper = new PasswordHelper;
+    }
+
+    /**
+     * Checks if the random string generator generates the required length string.
+     *
      * @param $length
      * @dataProvider textLengthProvider
      */
     public function testGenerateRandomString($length)
     {
-        $pwHelper = new PasswordHelper;
-        $randomString = $pwHelper->generateRandomString($length);
-        $this->assertNotEmpty($randomString);
+        $randomString = $this->passwordHelper->generateRandomString($length);
         $this->assertEquals($length, strlen($randomString));
     }
 
     /**
+     * Checks if the random generated string contains only valid characters
+     *
+     * @see $this->isValidRandomString
      * @param $length
      * @dataProvider textLengthProvider
      */
     public function testRandomStringCharacters($length)
     {
-        $pwHelper = new PasswordHelper;
-        $randomString = $pwHelper->generateRandomString($length);
+        $randomString = $this->passwordHelper->generateRandomString($length);
         $isValidString = $this->isValidRandomString($randomString);
         $this->assertTrue($isValidString);
 
@@ -61,6 +80,9 @@ class PasswordHelperTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
+     * Decides if the $randomString contains only valid characters
+     *
+     * @link https://confluence.doclerholding.com/pages/viewpage.action?pageId=52203382
      * @param $randomString
      * @return bool
      */
@@ -75,19 +97,32 @@ class PasswordHelperTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
+     * Checks if the hashed password length is exactly 40 characters long.
      *
+     * @link https://confluence.doclerholding.com/pages/viewpage.action?pageId=52203382
+     * @param $length
+     * @dataProvider textLengthProvider
      */
-    public function testHashStringWithSalt()
+    public function testHashStringWithSalt($length)
     {
-
+        $userPassword = $this->passwordHelper->generateRandomString($length);
+        $salt = $this->passwordHelper->generateRandomString($length);
+        $hashedPassword = $this->passwordHelper->hashStringWithSalt($userPassword, $salt);
+        $expectedHashLength = 40; //sha1 length default hexa
+        $this->assertEquals($expectedHashLength, strlen($hashedPassword));
     }
 
     /**
+     * Checks if the generated password is an instance of Password class.
      *
+     * @param $length
+     * @dataProvider textLengthProvider
      */
-    public function testGeneratePassword()
+    public function testGeneratePassword($length)
     {
-
+        $plainPassword = $this->passwordHelper->generateRandomString($length);
+        $password = $this->passwordHelper->generatePassword($plainPassword, $length);
+        $this->assertInstanceOf('Kata\RegistrationSystem\Entity\Password', $password);
     }
 
 }
