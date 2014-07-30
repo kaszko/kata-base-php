@@ -10,5 +10,6 @@ namespace Kata\RegistrationSystem\Entity;
 
 
 class Password {
-
+    public $hashedPassword = '';
+    public $salt = '';
 } 
