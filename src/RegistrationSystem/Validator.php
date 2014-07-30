@@ -32,7 +32,7 @@ class Validator {
         if (strlen($plainPassword) < 6) {
             return false;
         }
-        if (strlen($plainPassword)) > 64) {
+        if (strlen($plainPassword) > 64) {
             return false;
         }
         return true;
