@@ -8,7 +8,6 @@
 
 namespace Kata\RegistrationSystem;
 
-
 use Kata\RegistrationSystem\Entity\Password;
 
 class PasswordHelper {
