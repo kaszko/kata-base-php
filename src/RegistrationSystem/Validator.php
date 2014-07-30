@@ -25,14 +25,14 @@ class Validator {
         return true;
     }
 
-    public function isValidPassword($password) {
-        if (!is_string($password)) {
+    public function isValidPlainPassword($plainPassword) {
+        if (!is_string($plainPassword)) {
             throw new \InvalidArgumentException;
         }
-        if (strlen($password) < 6) {
+        if (strlen($plainPassword) < 6) {
             return false;
         }
-        if (strlen($password)) > 64) {
+        if (strlen($plainPassword)) > 64) {
             return false;
         }
         return true;
