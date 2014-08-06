@@ -11,4 +11,14 @@ namespace Kata\RegistrationSystem;
 
 class Storage {
 
+    /**
+     * Saves a user
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function saveUser(User $user)
+    {
+        return true;
+    }
 } 
