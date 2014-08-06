@@ -57,10 +57,13 @@ class Storage {
      */
     public function userExistsByEmail($email)
     {
-        $statement = $this->pdo->prepare("SELECT 1 FROM users WHERE email = :_email");
+        $statement = $this->pdo->prepare("SELECT * FROM users WHERE email = :_email");
         $statement->bindParam(':_email', $email, \PDO::PARAM_STR);
-        $result = $statement->execute();
-
-        return $result;
+        $statement->execute();
+        $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+        //echo "xxxxxxxxxx - $email - " . $statement->rowCount() . " - " . var_export($result, 1);
+        $return = (count($result) == 1);
+        //echo "SSSS: " . var_export($return, 1);
+        return $return;
     }
 } 
