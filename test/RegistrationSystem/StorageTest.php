@@ -48,6 +48,13 @@ class StorageTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(1, count($this->PDO->query("SELECT id FROM users WHERE email='test@example.com'")->fetchAll()));
     }
 
+    public function testUserExistsByEmail() {
+        $this->PDO->query("INSERT INTO users (email, password, salt) VALUES ('test@example2.com', '', '')");
+
+        $this->assertTrue($this->storage->userExistsByEmail('test@example2.com'));
+        $this->assertFalse($this->storage->userExistsByEmail('notinserted@example.com'));
+    }
+
 
 }
  
