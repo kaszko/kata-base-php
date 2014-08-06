@@ -8,6 +8,7 @@
 
 namespace Kata\RegistrationSystem;
 
+use Kata\RegistrationSystem\Entity\User;
 
 class Storage {
 
