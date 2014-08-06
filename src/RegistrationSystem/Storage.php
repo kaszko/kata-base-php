@@ -12,6 +12,19 @@ use Kata\RegistrationSystem\Entity\User;
 class Storage {
 
     /**
+     * @var \PDO
+     */
+    private $pdo;
+
+    /**
+     * @param \PDO $pdo
+     */
+    public function __construct(\PDO $pdo)
+    {
+        $this->pdo = $pdo;
+    }
+
+    /**
      * Saves a user
      *
      * @param User $user
@@ -19,7 +32,21 @@ class Storage {
      */
     public function saveUser(User $user)
     {
-        return true;
+        $statement = $this->pdo->prepare(
+        "INSERT INTO users (
+            email, password, salt
+        ) VALUES (
+            :_email, :_password, :_salt
+        )
+        ");
+        $password = $user->password->hashedPassword;
+        $salt = $user->password->salt;
+        $statement->bindParam(':_email', $user->email, \PDO::PARAM_STR);
+        $statement->bindParam(':_password', $password, \PDO::PARAM_STR);
+        $statement->bindParam(':_salt', $salt, \PDO::PARAM_STR);
+        $result = $statement->execute();
+
+        return $result;
     }
 
     /**
@@ -30,6 +57,10 @@ class Storage {
      */
     public function userExistsByEmail($email)
     {
-        return true;
+        $statement = $this->pdo->prepare("SELECT 1 FROM users WHERE email = :_email");
+        $statement->bindParam(':_email', $email, \PDO::PARAM_STR);
+        $result = $statement->execute();
+
+        return $result;
     }
 } 
