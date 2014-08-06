@@ -1,124 +1,88 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Pot
- * Date: 7/30/2014
- * Time: 6:57 PM
+ * User: kaszko
+ * Date: 8/6/2014
+ * Time: 5:33 PM
  */
 
 namespace Kata\Test\RegistrationSystem;
+
+
 use Kata\RegistrationSystem\Validator;
 
-class ValidatorTest extends \PHPUnit_Framework_TestCase
-{
+class ValidatorTest extends \PHPUnit_Framework_TestCase {
+
     /**
      * @var Validator
      */
-    protected $validator;
+    private $validator;
 
-    /**
-     *
-     */
-    protected function setUp()
-    {
-        $this->validator = new Validator;
+    protected function setUp() {
+        $this->validator = new Validator();
     }
 
     /**
+     * @dataProvider emailDataProvider
      * @param $email
-     * @dataProvider validEmailProvider
+     * @param $valid
      */
-    public function testIsValidEmail($email)
-    {
-        //echo $email . PHP_EOL;
-        $this->assertTrue($this->validator->isValidEmail($email));
+    public function testEmailValidation($email, $valid) {
+        $this->assertEquals($valid, $this->validator->isValidEmail($email));
     }
 
     /**
-     * @return array
+     * @dataProvider noStringProvider
+     * @expectedException InvalidArgumentException
      */
-    public function validEmailProvider()
-    {
-        for($i = 0; $i < 30; $i++) {
-            $mails[] = array($this->generateRandomString() . '@'.$this->generateRandomString(3, 15).'.'.$this->generateRandomString(2, 4));
-        }
-        return $mails;
+    public function testEmailValidationForException($noStringInput) {
+       $this->validator->isValidEmail($noStringInput);
     }
 
     /**
-     * @param $invalidMail
-     * @dataProvider invalidEmailProvider
-     */
-    public function testIsInvalidEmail($invalidMail)
-    {
-        $this->assertFalse($this->validator->isValidEmail($invalidMail));
-    }
-
-    /**
-     * @param $invalidMail
-     * @dataProvider invalidEmailExceptionProvider
-     * @expectedException \InvalidArgumentException
-     */
-    public function testIsInvalidEmailForException($invalidMail)
-    {
-        $this->validator->isValidEmail($invalidMail);
-    }
-
-    /**
-     * @return array
-     */
-    public function invalidEmailProvider()
-    {
-        $mails = array();
-        $mails[] = array($this->generateRandomString()); // no dot no at
-        $mails[] = array($this->generateRandomString() . '.'); // no at
-        $mails[] = array($this->generateRandomString() . '@'); // no dot
-        return $mails;
-    }
-
-    /**
-     * @return array
-     */
-    public function invalidEmailExceptionProvider()
-    {
-        $mails = array();
-        $mails[] = array(array());
-        $mails[] = array(new \StdClass);
-        return $mails;
-    }
-
-    /**
+     * @dataProvider passwordDataProvider
      * @param $password
-     * @dataProvider validPlainPasswordProvider
+     * @param $valid
      */
-    public function testIsValidPlainPassword($password)
-    {
-        $this->assertTrue($this->validator->isValidPlainPassword($password));
+    public function testPasswordValidation($password, $valid) {
+        $this->assertEquals($valid, $this->validator->isValidPlainPassword($password));
     }
 
     /**
-     * @return array
+     * @dataProvider noStringProvider
+     * @expectedException InvalidArgumentException
      */
-    public function validPlainPasswordProvider()
-    {
-        for($i = 0; $i < 30; $i++) {
-            $mails[] = array($this->generateRandomString(6, 46));
-        }
-        return $mails;
+    public function testPasswordValidationForException($noStringInput) {
+        $this->validator->isValidPlainPassword($noStringInput);
     }
 
-
-    /**
-     * @return string
-     */
-    public function generateRandomString($min = 3, $max = 40) {
-        $charSet = 'abcdefghijklmnopqrstuvwxyz';
-        $str = '';
-        for ($x = 0; $x<rand($min, $max); $x++) {
-            $str .= substr($charSet, (int)(mt_rand(1,99999) % strlen($charSet)), 1);
-        }
-        return $str;
+    public function noStringProvider() {
+        return array(
+            array(array(1)),
+            array(new \stdClass()),
+        );
     }
 
+    public function emailDataProvider() {
+        return array(
+            array('kolos@escalion.com', true),
+            array('demo@exampole.co.uk', true),
+            array('tittel-andor.test_fr@doclerholding.com', true),
+            array('test@gmail.com', true),
+            array('k@a.', false),
+            array('asd', false),
+            array('000', false),
+        );
+    }
+
+    public function passwordDataProvider() {
+        return array(
+            array('asdassd1231231', true),
+            array('asdad894+!)(!+)', true),
+            array(md5(time()) . md5(time()) . md5(time()), false),
+            array('as', false),
+            array('1', false),
+        );
+    }
 }
  

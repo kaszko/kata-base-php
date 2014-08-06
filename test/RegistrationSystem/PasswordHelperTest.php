@@ -13,6 +13,8 @@
 namespace Kata\Test\RegistrationSystem;
 use Kata\RegistrationSystem\PasswordHelper;
 use Kata\RegistrationSystem\Entity\Password;
+use Kata\RegistrationSystem\Validator;
+
 
 class PasswordHelperTest extends \PHPUnit_Framework_TestCase {
 
