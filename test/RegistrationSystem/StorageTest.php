@@ -11,6 +11,7 @@ namespace Kata\Test\RegistrationSystem;
 
 use Kata\RegistrationSystem\PasswordHelper;
 use Kata\RegistrationSystem\Entity\User;
+use Kata\RegistrationSystem\Storage;
 
 class StorageTest extends \PHPUnit_Framework_TestCase {
 

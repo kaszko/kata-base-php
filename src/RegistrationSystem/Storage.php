@@ -7,7 +7,7 @@
  */
 
 namespace Kata\RegistrationSystem;
-
+use Kata\RegistrationSystem\Entity\User;
 
 class Storage {
 
@@ -18,6 +18,17 @@ class Storage {
      * @return bool
      */
     public function saveUser(User $user)
+    {
+        return true;
+    }
+
+    /**
+     * Gives back if a given email exists in the DB.
+     *
+     * @param $email
+     * @return bool
+     */
+    public function userExistsByEmail($email)
     {
         return true;
     }

@@ -7,8 +7,6 @@
  */
 
 namespace Kata\Test\RegistrationSystem;
-
-
 use Kata\RegistrationSystem\Validator;
 
 class ValidatorTest extends \PHPUnit_Framework_TestCase {
@@ -18,6 +16,9 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase {
      */
     private $validator;
 
+    /**
+     *
+     */
     protected function setUp() {
         $this->validator = new Validator();
     }
@@ -56,6 +57,9 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase {
         $this->validator->isValidPlainPassword($noStringInput);
     }
 
+    /**
+     * @return array
+     */
     public function noStringProvider() {
         return array(
             array(array(1)),
@@ -63,6 +67,9 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
+    /**
+     * @return array
+     */
     public function emailDataProvider() {
         return array(
             array('kolos@escalion.com', true),
