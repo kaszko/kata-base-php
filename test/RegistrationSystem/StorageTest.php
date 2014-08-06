@@ -42,7 +42,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase {
         $user->email = 'test@example.com';
         $user->password = (new PasswordHelper())->generatePassword('testPlainPassword');
 
-        $this->storage->saveUser($user);
+        $this->assertTrue($this->storage->saveUser($user));
 
 
         $this->assertEquals(1, count($this->PDO->query("SELECT id FROM users WHERE email='test@example.com'")->fetchAll()));
