@@ -9,6 +9,7 @@
 namespace Kata\Test\RegistrationSystem;
 
 
+use Kata\RegistrationSystem\Exception\ExistingEmailException;
 use Kata\RegistrationSystem\PasswordHelper;
 use Kata\RegistrationSystem\RegistrationManager;
 use Kata\RegistrationSystem\Storage;
@@ -73,8 +74,14 @@ class RegistrationManagerTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(1, count($this->PDO->query(sprintf("SELECT id FROM users WHERE email='%s'", $email))->fetchAll()));
     }
 
+    /**
+     * @expectedException ExistingEmailException
+     */
     public function testExistingUser() {
+        $email = 'teszt1@example.com';
 
+        $this->PDO->query(sprintf("INSERT INTO users (email) values ('%s')", $email));
+        $this->registrationManager->apiRegistration($email);
     }
 }
  
