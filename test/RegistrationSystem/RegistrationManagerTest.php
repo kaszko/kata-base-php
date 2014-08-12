@@ -95,7 +95,7 @@ class RegistrationManagerTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException Kata\RegistrationSystem\Exception\InvalidPasswordException
      */
     public function testTooShortPassword() {
         $email = 'teszt1@example.com';
@@ -104,7 +104,7 @@ class RegistrationManagerTest extends \PHPUnit_Framework_TestCase {
 
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException Kata\RegistrationSystem\Exception\InvalidPasswordException
      */
     public function testTooLong2Password() {
         $email = 'teszt1@example.com';
