@@ -93,5 +93,21 @@ class RegistrationManagerTest extends \PHPUnit_Framework_TestCase {
         $this->PDO->query(sprintf("INSERT INTO users (email) values ('%s')", $email));
         $this->registrationManager->formRegistration($email, 'thisIsPlainTest123');
     }
+
+    /**
+     * @expectedException \InvalidArgumentException;
+     */
+    public function testTooShortPassword() {
+        $email = 'teszt1@example.com';
+        $this->registrationManager->formRegistration($email, 'short1');
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException;
+     */
+    public function testTooLongPassword() {
+        $email = 'teszt1@example.com';
+        $this->registrationManager->formRegistration($email, str_pad('LongPass', 65, '0', STR_PAD_BOTH));
+    }
 }
  
