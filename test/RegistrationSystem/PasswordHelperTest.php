@@ -112,6 +112,8 @@ class PasswordHelperTest extends \PHPUnit_Framework_TestCase {
         $hashedPassword = $this->passwordHelper->hashStringWithSalt($userPassword, $salt);
         $expectedHashLength = 40; //sha1 length default hexa
         $this->assertEquals($expectedHashLength, strlen($hashedPassword));
+
+        $this->assertEquals($hashedPassword, $this->passwordHelper->hashStringWithSalt($userPassword, $salt));
     }
 
     /**

@@ -57,7 +57,7 @@ class RegistrationManagerTest extends \PHPUnit_Framework_TestCase {
         $user = new User();
         $user->email = $email;
 
-        $this->assertTrue($this->registrationManager->apiRegistration($user));
+        $this->assertTrue($this->registrationManager->apiRegistration($email));
 
         $this->assertEquals(1, count($this->PDO->query(sprintf("SELECT id FROM users WHERE email='%s'", $email))->fetchAll()));
     }
@@ -68,15 +68,13 @@ class RegistrationManagerTest extends \PHPUnit_Framework_TestCase {
         $length = 33;
 
         $plainPassword = $this->passwordHelper->generateRandomString($length);
-        $password = $this->passwordHelper->generatePassword($plainPassword, $length);
 
-        $user = new User();
-        $user->email = $email;
-        $user->password = $password;
-
-        $this->assertTrue($this->registrationManager->formRegistration($user));
-
+        $this->assertTrue($this->registrationManager->formRegistration($email, $plainPassword));
         $this->assertEquals(1, count($this->PDO->query(sprintf("SELECT id FROM users WHERE email='%s'", $email))->fetchAll()));
+    }
+
+    public function testExistingUser() {
+
     }
 }
  
