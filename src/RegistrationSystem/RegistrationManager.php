@@ -54,9 +54,7 @@ class RegistrationManager {
      */
     public function apiRegistration($email)
     {
-        $randomPass = $this->passwordHelper->generateRandomString(rand(1, 64));
-
-
+        $randomPass = $this->passwordHelper->generateRandomString(rand(1, Validator::MAX_PLAIN_PASS_LEN));
         return $this->formRegistration($email, $randomPass);
     }
 
@@ -69,7 +67,7 @@ class RegistrationManager {
      */
     public function formRegistration($email, $plainPassword)
     {
-        $password = $this->passwordHelper->generatePassword($plainPassword, rand(1, 64));
+        $password = $this->passwordHelper->generatePassword($plainPassword, rand(12, 33));
 
         $user = new User();
         $user->email = $email;
