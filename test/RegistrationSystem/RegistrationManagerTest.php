@@ -95,19 +95,22 @@ class RegistrationManagerTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException InvalidArgumentException
      */
     public function testTooShortPassword() {
         $email = 'teszt1@example.com';
-        $this->registrationManager->formRegistration($email, 'short1');
+        $this->registrationManager->formRegistration($email, 'short');
     }
 
+
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException InvalidArgumentException
      */
-    public function xtestTooLongPassword() {
+    public function testTooLong2Password() {
         $email = 'teszt1@example.com';
-        $this->registrationManager->formRegistration($email, str_pad('LongPass', 65, '0', STR_PAD_BOTH));
+        $password = str_pad('TestLongPass', 66, '0', STR_PAD_BOTH);
+        $this->registrationManager->formRegistration($email, $password);
     }
+
 }
  

@@ -7,6 +7,7 @@
  */
 
 namespace Kata\Test\RegistrationSystem;
+use Kata\RegistrationSystem\Exception\NotStringException;
 use Kata\RegistrationSystem\Validator;
 
 class ValidatorTest extends \PHPUnit_Framework_TestCase {
@@ -34,7 +35,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @dataProvider noStringProvider
-     * @expectedException InvalidArgumentException
+     * @expectedException Kata\RegistrationSystem\Exception\NotStringException
      */
     public function testEmailValidationForException($noStringInput) {
        $this->validator->isValidEmail($noStringInput);
@@ -51,7 +52,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @dataProvider noStringProvider
-     * @expectedException InvalidArgumentException
+     * @expectedException Kata\RegistrationSystem\Exception\NotStringException
      */
     public function testPasswordValidationForException($noStringInput) {
         $this->validator->isValidPlainPassword($noStringInput);
