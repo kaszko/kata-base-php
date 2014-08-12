@@ -13,6 +13,7 @@ use Kata\RegistrationSystem\PasswordHelper;
 use Kata\RegistrationSystem\RegistrationManager;
 use Kata\RegistrationSystem\Storage;
 use Kata\RegistrationSystem\Validator;
+use Kata\RegistrationSystem\Entity\User;
 
 class RegistrationManagerTest extends \PHPUnit_Framework_TestCase {
 
@@ -25,6 +26,11 @@ class RegistrationManagerTest extends \PHPUnit_Framework_TestCase {
      * @var \PDO
      */
     private $PDO;
+
+    /**
+     * @var PasswordHelper
+     */
+    private $passwordHelper;
 
     const DB_SCHEMA = "
         CREATE TABLE users (
@@ -42,12 +48,33 @@ class RegistrationManagerTest extends \PHPUnit_Framework_TestCase {
         $passwordHelper = new PasswordHelper();
         $storage = new Storage($this->PDO);
         $this->registrationManager = new RegistrationManager($validator, $passwordHelper, $storage);
+        $this->passwordHelper = new PasswordHelper;
     }
 
     public function testApiRegistration() {
         $email = 'teszt1@example.com';
 
-        $this->assertTrue($this->registrationManager->apiRegistration($email));
+        $user = new User();
+        $user->email = $email;
+
+        $this->assertTrue($this->registrationManager->apiRegistration($user));
+
+        $this->assertEquals(1, count($this->PDO->query(sprintf("SELECT id FROM users WHERE email='%s'", $email))->fetchAll()));
+    }
+
+    public function testFormRegistration()
+    {
+        $email = 'teszt1@example.com';
+        $length = 33;
+
+        $plainPassword = $this->passwordHelper->generateRandomString($length);
+        $password = $this->passwordHelper->generatePassword($plainPassword, $length);
+
+        $user = new User();
+        $user->email = $email;
+        $user->password = $password;
+
+        $this->assertTrue($this->registrationManager->formRegistration($user));
 
         $this->assertEquals(1, count($this->PDO->query(sprintf("SELECT id FROM users WHERE email='%s'", $email))->fetchAll()));
     }
