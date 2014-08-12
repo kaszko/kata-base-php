@@ -14,6 +14,7 @@ class User {
      * @var string E-mail address
      */
     public $email;
+
     /**
      * @var Password Password object
      */
