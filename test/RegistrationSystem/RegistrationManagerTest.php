@@ -75,7 +75,7 @@ class RegistrationManagerTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException ExistingEmailException
+     * @expectedException Kata\RegistrationSystem\Exception\ExistingEmailException
      */
     public function testExistingUserOnApi() {
         $email = 'teszt1@example.com';
@@ -85,7 +85,7 @@ class RegistrationManagerTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException ExistingEmailException
+     * @expectedException Kata\RegistrationSystem\Exception\ExistingEmailException
      */
     public function testExistingUserOnForm() {
         $email = 'teszt1@example.com';

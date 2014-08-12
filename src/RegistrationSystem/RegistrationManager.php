@@ -11,6 +11,7 @@ namespace Kata\RegistrationSystem;
 
 use Kata\RegistrationSystem\Entity\Password;
 use Kata\RegistrationSystem\Entity\User;
+use Kata\RegistrationSystem\Exception\ExistingEmailException;
 use Kata\RegistrationSystem\Validator;
 use Kata\RegistrationSystem\PasswordHelper;
 use Kata\RegistrationSystem\Storage;
@@ -63,17 +64,40 @@ class RegistrationManager {
      *
      * @param string $email
      * @param string $plainPassword
+     * @throws ExistingEmailException
      * @return bool
      */
     public function formRegistration($email, $plainPassword)
     {
+        $this->validateFormData($email, $plainPassword);
         $password = $this->passwordHelper->generatePassword($plainPassword, rand(12, 33));
-
         $user = new User();
         $user->email = $email;
         $user->password = $password;
 
         $result = $this->storage->saveUser($user);
         return $result;
+    }
+
+    /**
+     * Validates form inputs.
+     *
+     * @param $email
+     * @param $plainPassword
+     * @throws Exception\ExistingEmailException
+     * @throws \InvalidArgumentException
+     */
+    private function validateFormData($email, $plainPassword)
+    {
+        if (true === $this->storage->userExistsByEmail($email))
+        {
+            throw new ExistingEmailException;
+        }
+
+        if (false === $this->validator->isValidPlainPassword($plainPassword))
+        {
+            throw new \InvalidArgumentException;
+        }
+
     }
 } 
