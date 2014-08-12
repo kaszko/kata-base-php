@@ -84,11 +84,15 @@ class RegistrationManager {
      *
      * @param $email
      * @param $plainPassword
-     * @throws Exception\ExistingEmailException
-     * @throws \InvalidArgumentException
+     * @throws Exception\ExistingEmailException | \InvalidArgumentException
      */
     private function validateFormData($email, $plainPassword)
     {
+        if (false === $this->validator->isValidEmail($email))
+        {
+            throw new \InvalidArgumentException;
+        }
+
         if (true === $this->storage->userExistsByEmail($email))
         {
             throw new ExistingEmailException;
