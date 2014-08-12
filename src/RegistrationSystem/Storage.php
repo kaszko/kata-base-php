@@ -39,11 +39,9 @@ class Storage {
             :_email, :_password, :_salt
         )
         ");
-        $password = $user->password->hashedPassword;
-        $salt = $user->password->salt;
         $statement->bindParam(':_email', $user->email, \PDO::PARAM_STR);
-        $statement->bindParam(':_password', $password, \PDO::PARAM_STR);
-        $statement->bindParam(':_salt', $salt, \PDO::PARAM_STR);
+        $statement->bindParam(':_password', $user->password->hashedPassword, \PDO::PARAM_STR);
+        $statement->bindParam(':_salt', $user->password->salt, \PDO::PARAM_STR);
         $result = $statement->execute();
 
         return $result;
@@ -61,9 +59,7 @@ class Storage {
         $statement->bindParam(':_email', $email, \PDO::PARAM_STR);
         $statement->execute();
         $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
-        //echo "xxxxxxxxxx - $email - " . $statement->rowCount() . " - " . var_export($result, 1);
         $return = (count($result) == 1);
-        //echo "SSSS: " . var_export($return, 1);
         return $return;
     }
 } 
