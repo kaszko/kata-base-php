@@ -12,6 +12,8 @@ namespace Kata\RegistrationSystem;
 use Kata\RegistrationSystem\Entity\Password;
 use Kata\RegistrationSystem\Entity\User;
 use Kata\RegistrationSystem\Exception\ExistingEmailException;
+use Kata\RegistrationSystem\Exception\InvalidEmailException;
+use Kata\RegistrationSystem\Exception\InvalidPasswordException;
 use Kata\RegistrationSystem\Validator;
 use Kata\RegistrationSystem\PasswordHelper;
 use Kata\RegistrationSystem\Storage;
@@ -90,7 +92,7 @@ class RegistrationManager {
     {
         if (false === $this->validator->isValidEmail($email))
         {
-            throw new \InvalidArgumentException;
+            throw new InvalidEmailException;
         }
 
         if (true === $this->storage->userExistsByEmail($email))
@@ -100,7 +102,7 @@ class RegistrationManager {
 
         if (false === $this->validator->isValidPlainPassword($plainPassword))
         {
-           throw new \InvalidArgumentException;
+           throw new InvalidPasswordException;
         }
 
     }

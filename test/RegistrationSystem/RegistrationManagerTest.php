@@ -112,5 +112,30 @@ class RegistrationManagerTest extends \PHPUnit_Framework_TestCase {
         $this->registrationManager->formRegistration($email, $password);
     }
 
+    /**
+     * @param $invalidEmail
+     * @dataProvider invalidEmailProvider
+     * @expectedException Kata\RegistrationSystem\Exception\InvalidEmailException
+     */
+    public function testInvalidEmailOnForm($invalidEmail) {
+        $this->registrationManager->formRegistration($invalidEmail, 'ThisIsTestVAlidPlain1');
+    }
+
+    /**
+     * @param $invalidEmail
+     * @dataProvider invalidEmailProvider
+     * @expectedException Kata\RegistrationSystem\Exception\InvalidEmailException
+     */
+    public function testInvalidEmailOnApi($invalidEmail) {
+        $this->registrationManager->apiRegistration($invalidEmail);
+    }
+
+    public function invalidEmailProvider() {
+        return array(
+            array('asd'),
+            array('@email.com'),
+        );
+    }
+
 }
  
