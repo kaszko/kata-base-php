@@ -96,7 +96,7 @@ class RegistrationManager {
 
         if (false === $this->validator->isValidPlainPassword($plainPassword))
         {
-            throw new \InvalidArgumentException;
+           throw new \InvalidArgumentException;
         }
 
     }

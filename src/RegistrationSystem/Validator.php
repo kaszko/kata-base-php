@@ -9,6 +9,8 @@
 namespace Kata\RegistrationSystem;
 
 
+use Kata\RegistrationSystem\Exception\NotStringException;
+
 class Validator {
 
     const MIN_PLAIN_PASS_LEN = 6;
@@ -16,7 +18,7 @@ class Validator {
 
     public function isValidEmail($email) {
         if (!is_string($email)) {
-            throw new \InvalidArgumentException;
+            throw new NotStringException;
         }
 
         if (false === filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -28,7 +30,7 @@ class Validator {
 
     public function isValidPlainPassword($plainPassword) {
         if (!is_string($plainPassword)) {
-            throw new \InvalidArgumentException;
+            throw new NotStringException;
         }
         if (strlen($plainPassword) < self::MIN_PLAIN_PASS_LEN) {
             return false;
