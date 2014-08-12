@@ -49,26 +49,32 @@ class RegistrationManager {
     /**
      * Saves a new registration from remote
      *
-     * @param User $user
+     * @param string $email
      * @return bool
      */
-    public function apiRegistration(User $user)
+    public function apiRegistration($email)
     {
         $randomPass = $this->passwordHelper->generateRandomString(rand(1, 64));
-        $password = $this->passwordHelper->generatePassword($randomPass, rand(1, 64));
-        $user->password = $password;
 
-        return $this->formRegistration($user);
+
+        return $this->formRegistration($email, $randomPass);
     }
 
     /**
      * Saves a new registration from the reg form.
      *
-     * @param User $user
+     * @param string $email
+     * @param string $plainPassword
      * @return bool
      */
-    public function formRegistration(User $user)
+    public function formRegistration($email, $plainPassword)
     {
+        $password = $this->passwordHelper->generatePassword($plainPassword, rand(1, 64));
+
+        $user = new User();
+        $user->email = $email;
+        $user->password = $password;
+
         $result = $this->storage->saveUser($user);
         return $result;
     }
