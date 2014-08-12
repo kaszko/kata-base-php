@@ -11,7 +11,8 @@ namespace Kata\RegistrationSystem;
 
 class Validator {
 
-
+    const MIN_PLAIN_PASS_LEN = 6;
+    const MAX_PLAIN_PASS_LEN = 64;
 
     public function isValidEmail($email) {
         if (!is_string($email)) {
@@ -29,10 +30,10 @@ class Validator {
         if (!is_string($plainPassword)) {
             throw new \InvalidArgumentException;
         }
-        if (strlen($plainPassword) < 6) {
+        if (strlen($plainPassword) < self::MIN_PLAIN_PASS_LEN) {
             return false;
         }
-        if (strlen($plainPassword) > 64) {
+        if (strlen($plainPassword) > self::MAX_PLAIN_PASS_LEN) {
             return false;
         }
         return true;
