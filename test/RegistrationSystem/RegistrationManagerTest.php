@@ -77,11 +77,21 @@ class RegistrationManagerTest extends \PHPUnit_Framework_TestCase {
     /**
      * @expectedException ExistingEmailException
      */
-    public function testExistingUser() {
+    public function testExistingUserOnApi() {
         $email = 'teszt1@example.com';
 
         $this->PDO->query(sprintf("INSERT INTO users (email) values ('%s')", $email));
         $this->registrationManager->apiRegistration($email);
+    }
+
+    /**
+     * @expectedException ExistingEmailException
+     */
+    public function testExistingUserOnForm() {
+        $email = 'teszt1@example.com';
+
+        $this->PDO->query(sprintf("INSERT INTO users (email) values ('%s')", $email));
+        $this->registrationManager->formRegistration($email, 'thisIsPlainTest123');
     }
 }
  
