@@ -19,6 +19,10 @@ class StorageTest extends \PHPUnit_Framework_TestCase {
      * @var \PDO
      */
     private $PDO;
+
+    /**
+     * @var Storage
+     */
     private $storage;
 
     const DB_SCHEMA = "
