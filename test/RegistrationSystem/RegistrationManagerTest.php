@@ -16,7 +16,8 @@ use Kata\RegistrationSystem\Storage;
 use Kata\RegistrationSystem\Validator;
 use Kata\RegistrationSystem\Entity\User;
 
-class RegistrationManagerTest extends \PHPUnit_Framework_TestCase {
+class RegistrationManagerTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * @var RegistrationManager
@@ -42,7 +43,8 @@ class RegistrationManagerTest extends \PHPUnit_Framework_TestCase {
         )
     ";
 
-    protected function setUp() {
+    protected function setUp()
+    {
         $this->PDO = new \PDO('sqlite::memory:');
         $this->PDO->query(self::DB_SCHEMA);
         $validator = new Validator();
@@ -52,7 +54,8 @@ class RegistrationManagerTest extends \PHPUnit_Framework_TestCase {
         $this->passwordHelper = new PasswordHelper;
     }
 
-    public function testApiRegistration() {
+    public function testApiRegistration()
+    {
         $email = 'teszt1@example.com';
 
         $user = new User();
@@ -77,7 +80,8 @@ class RegistrationManagerTest extends \PHPUnit_Framework_TestCase {
     /**
      * @expectedException Kata\RegistrationSystem\Exception\ExistingEmailException
      */
-    public function testExistingUserOnApi() {
+    public function testExistingUserOnApi()
+    {
         $email = 'teszt1@example.com';
 
         $this->PDO->query(sprintf("INSERT INTO users (email) values ('%s')", $email));
@@ -87,7 +91,8 @@ class RegistrationManagerTest extends \PHPUnit_Framework_TestCase {
     /**
      * @expectedException Kata\RegistrationSystem\Exception\ExistingEmailException
      */
-    public function testExistingUserOnForm() {
+    public function testExistingUserOnForm()
+    {
         $email = 'teszt1@example.com';
 
         $this->PDO->query(sprintf("INSERT INTO users (email) values ('%s')", $email));
@@ -97,7 +102,8 @@ class RegistrationManagerTest extends \PHPUnit_Framework_TestCase {
     /**
      * @expectedException Kata\RegistrationSystem\Exception\InvalidPasswordException
      */
-    public function testTooShortPassword() {
+    public function testTooShortPassword()
+    {
         $email = 'teszt1@example.com';
         $this->registrationManager->formRegistration($email, 'short');
     }
@@ -106,7 +112,8 @@ class RegistrationManagerTest extends \PHPUnit_Framework_TestCase {
     /**
      * @expectedException Kata\RegistrationSystem\Exception\InvalidPasswordException
      */
-    public function testTooLong2Password() {
+    public function testTooLong2Password()
+    {
         $email = 'teszt1@example.com';
         $password = str_pad('TestLongPass', 66, '0', STR_PAD_BOTH);
         $this->registrationManager->formRegistration($email, $password);
@@ -117,7 +124,8 @@ class RegistrationManagerTest extends \PHPUnit_Framework_TestCase {
      * @dataProvider invalidEmailProvider
      * @expectedException Kata\RegistrationSystem\Exception\InvalidEmailException
      */
-    public function testInvalidEmailOnForm($invalidEmail) {
+    public function testInvalidEmailOnForm($invalidEmail)
+    {
         $this->registrationManager->formRegistration($invalidEmail, 'ThisIsTestVAlidPlain1');
     }
 
@@ -126,11 +134,13 @@ class RegistrationManagerTest extends \PHPUnit_Framework_TestCase {
      * @dataProvider invalidEmailProvider
      * @expectedException Kata\RegistrationSystem\Exception\InvalidEmailException
      */
-    public function testInvalidEmailOnApi($invalidEmail) {
+    public function testInvalidEmailOnApi($invalidEmail)
+    {
         $this->registrationManager->apiRegistration($invalidEmail);
     }
 
-    public function invalidEmailProvider() {
+    public function invalidEmailProvider()
+    {
         return array(
             array('asd'),
             array('@email.com'),

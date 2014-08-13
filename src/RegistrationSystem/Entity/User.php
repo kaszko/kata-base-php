@@ -9,7 +9,8 @@
 namespace Kata\RegistrationSystem\Entity;
 
 
-class User {
+class User
+{
     /**
      * @var string E-mail address
      */

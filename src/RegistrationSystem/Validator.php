@@ -11,12 +11,14 @@ namespace Kata\RegistrationSystem;
 
 use Kata\RegistrationSystem\Exception\NotStringException;
 
-class Validator {
+class Validator
+{
 
     const MIN_PLAIN_PASS_LEN = 6;
     const MAX_PLAIN_PASS_LEN = 64;
 
-    public function isValidEmail($email) {
+    public function isValidEmail($email)
+    {
         if (!is_string($email)) {
             throw new NotStringException;
         }
@@ -28,7 +30,8 @@ class Validator {
         return true;
     }
 
-    public function isValidPlainPassword($plainPassword) {
+    public function isValidPlainPassword($plainPassword)
+    {
         if (!is_string($plainPassword)) {
             throw new NotStringException;
         }

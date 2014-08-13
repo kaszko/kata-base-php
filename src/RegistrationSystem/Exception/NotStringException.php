@@ -9,6 +9,7 @@
 namespace Kata\RegistrationSystem\Exception;
 
 
-class NotStringException extends \Exception {
+class NotStringException extends \Exception
+{
 
 } 

@@ -13,7 +13,8 @@ use Kata\RegistrationSystem\PasswordHelper;
 use Kata\RegistrationSystem\Entity\User;
 use Kata\RegistrationSystem\Storage;
 
-class StorageTest extends \PHPUnit_Framework_TestCase {
+class StorageTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * @var \PDO
@@ -34,14 +35,16 @@ class StorageTest extends \PHPUnit_Framework_TestCase {
         )
     ";
 
-    protected function setUp() {
+    protected function setUp()
+    {
         $this->PDO = new \PDO('sqlite::memory:');
         $this->PDO->query(self::DB_SCHEMA);
         echo "setup ok\n";
         $this->storage = new Storage($this->PDO);
     }
 
-    public function testSaveUser() {
+    public function testSaveUser()
+    {
         $user = new User();
         $user->email = 'test@example.com';
         $user->password = (new PasswordHelper())->generatePassword('testPlainPassword');
@@ -52,7 +55,8 @@ class StorageTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(1, count($this->PDO->query("SELECT id FROM users WHERE email='test@example.com'")->fetchAll()));
     }
 
-    public function testUserExistsByEmail() {
+    public function testUserExistsByEmail()
+    {
         $this->PDO->query("INSERT INTO users (email, password, salt) VALUES ('test@example2.com', '', '')");
 
         $this->assertTrue($this->storage->userExistsByEmail('test@example2.com'));

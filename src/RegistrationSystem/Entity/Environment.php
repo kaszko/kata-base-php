@@ -9,7 +9,8 @@
 namespace Kata\RegistrationSystem\Entity;
 
 
-class Environment {
+class Environment
+{
     public $ip;
     public $ipRange;
     public $country;
