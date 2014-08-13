@@ -41,6 +41,9 @@ class PasswordHelperTest extends \PHPUnit_Framework_TestCase {
     {
         $randomString = $this->passwordHelper->generateRandomString($length);
         $this->assertEquals($length, strlen($randomString));
+
+        $random2String = $this->passwordHelper->generateRandomString($length);
+        $this->assertNotEquals($random2String, $randomString);
     }
 
     /**
@@ -49,6 +52,7 @@ class PasswordHelperTest extends \PHPUnit_Framework_TestCase {
      * @see $this->isValidRandomString
      * @param $length
      * @dataProvider textLengthProvider
+     * @todo test pWhelper charset directly
      */
     public function testRandomStringCharacters($length)
     {
@@ -87,6 +91,7 @@ class PasswordHelperTest extends \PHPUnit_Framework_TestCase {
      * @link https://confluence.doclerholding.com/pages/viewpage.action?pageId=52203382
      * @param $randomString
      * @return bool
+     *
      */
     public function isValidRandomString($randomString)
     {
@@ -104,6 +109,7 @@ class PasswordHelperTest extends \PHPUnit_Framework_TestCase {
      * @link https://confluence.doclerholding.com/pages/viewpage.action?pageId=52203382
      * @param $length
      * @dataProvider textLengthProvider
+     * @todo sha1 formal requirements check
      */
     public function testHashStringWithSalt($length)
     {
@@ -121,6 +127,7 @@ class PasswordHelperTest extends \PHPUnit_Framework_TestCase {
      *
      * @param $length
      * @dataProvider textLengthProvider
+     * @todo test Password public attributes for length
      */
     public function testGeneratePassword($length)
     {

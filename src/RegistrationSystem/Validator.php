@@ -16,9 +16,15 @@ class Validator {
     const MIN_PLAIN_PASS_LEN = 6;
     const MAX_PLAIN_PASS_LEN = 64;
 
+    /**
+     * @param $email
+     * @return bool
+     * @throws Exception\NotStringException
+     * @todo return false es ne exception
+     */
     public function isValidEmail($email) {
         if (!is_string($email)) {
-            throw new NotStringException;
+            return false;
         }
 
         if (false === filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -30,7 +36,7 @@ class Validator {
 
     public function isValidPlainPassword($plainPassword) {
         if (!is_string($plainPassword)) {
-            throw new NotStringException;
+            return false;
         }
         if (strlen($plainPassword) < self::MIN_PLAIN_PASS_LEN) {
             return false;

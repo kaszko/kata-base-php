@@ -37,10 +37,13 @@ class StorageTest extends \PHPUnit_Framework_TestCase {
     protected function setUp() {
         $this->PDO = new \PDO('sqlite::memory:');
         $this->PDO->query(self::DB_SCHEMA);
-        echo "setup ok\n";
+        echo "setup called\n";
         $this->storage = new Storage($this->PDO);
     }
 
+    /**
+     * @todo check all the fields has to be saved
+     */
     public function testSaveUser() {
         $user = new User();
         $user->email = 'test@example.com';

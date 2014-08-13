@@ -42,6 +42,9 @@ class RegistrationManagerTest extends \PHPUnit_Framework_TestCase {
         )
     ";
 
+    /**
+     * Setup
+     */
     protected function setUp() {
         $this->PDO = new \PDO('sqlite::memory:');
         $this->PDO->query(self::DB_SCHEMA);
@@ -52,17 +55,22 @@ class RegistrationManagerTest extends \PHPUnit_Framework_TestCase {
         $this->passwordHelper = new PasswordHelper;
     }
 
+    /**
+     * Testing API regi
+     *
+     * @todo test password and salt generation and persistency to sql
+     */
     public function testApiRegistration() {
         $email = 'teszt1@example.com';
-
-        $user = new User();
-        $user->email = $email;
 
         $this->assertTrue($this->registrationManager->apiRegistration($email));
 
         $this->assertEquals(1, count($this->PDO->query(sprintf("SELECT id FROM users WHERE email='%s'", $email))->fetchAll()));
     }
 
+    /**
+     * @todo test password and salt generation and persistency to sql
+     */
     public function testFormRegistration()
     {
         $email = 'teszt1@example.com';
@@ -96,6 +104,7 @@ class RegistrationManagerTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @expectedException Kata\RegistrationSystem\Exception\InvalidPasswordException
+     * @todo use constants of min and max length
      */
     public function testTooShortPassword() {
         $email = 'teszt1@example.com';
@@ -106,7 +115,7 @@ class RegistrationManagerTest extends \PHPUnit_Framework_TestCase {
     /**
      * @expectedException Kata\RegistrationSystem\Exception\InvalidPasswordException
      */
-    public function testTooLong2Password() {
+    public function testTooLongPassword() {
         $email = 'teszt1@example.com';
         $password = str_pad('TestLongPass', 66, '0', STR_PAD_BOTH);
         $this->registrationManager->formRegistration($email, $password);

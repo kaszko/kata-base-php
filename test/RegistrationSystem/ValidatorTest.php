@@ -34,38 +34,12 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @dataProvider noStringProvider
-     * @expectedException Kata\RegistrationSystem\Exception\NotStringException
-     */
-    public function testEmailValidationForException($noStringInput) {
-       $this->validator->isValidEmail($noStringInput);
-    }
-
-    /**
      * @dataProvider passwordDataProvider
      * @param $password
      * @param $valid
      */
     public function testPasswordValidation($password, $valid) {
         $this->assertEquals($valid, $this->validator->isValidPlainPassword($password));
-    }
-
-    /**
-     * @dataProvider noStringProvider
-     * @expectedException Kata\RegistrationSystem\Exception\NotStringException
-     */
-    public function testPasswordValidationForException($noStringInput) {
-        $this->validator->isValidPlainPassword($noStringInput);
-    }
-
-    /**
-     * @return array
-     */
-    public function noStringProvider() {
-        return array(
-            array(array(1)),
-            array(new \stdClass()),
-        );
     }
 
     /**
@@ -80,6 +54,8 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase {
             array('k@a.', false),
             array('asd', false),
             array('000', false),
+            array(array(1), false),
+            array(new \stdClass(), false),
         );
     }
 
@@ -90,6 +66,8 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase {
             array(md5(time()) . md5(time()) . md5(time()), false),
             array('as', false),
             array('1', false),
+            array(array(1), false),
+            array(new \stdClass(), false),
         );
     }
 }
