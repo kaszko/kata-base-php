@@ -9,6 +9,7 @@
 namespace Kata\RegistrationSystem\Exception;
 
 
-class InvalidPasswordException extends \Exception {
+class InvalidPasswordException extends \Exception
+{
 
 } 

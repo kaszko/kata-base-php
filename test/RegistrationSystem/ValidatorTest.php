@@ -7,10 +7,12 @@
  */
 
 namespace Kata\Test\RegistrationSystem;
+
 use Kata\RegistrationSystem\Exception\NotStringException;
 use Kata\RegistrationSystem\Validator;
 
-class ValidatorTest extends \PHPUnit_Framework_TestCase {
+class ValidatorTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * @var Validator
@@ -20,7 +22,8 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase {
     /**
      *
      */
-    protected function setUp() {
+    protected function setUp()
+    {
         $this->validator = new Validator();
     }
 
@@ -29,8 +32,18 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase {
      * @param $email
      * @param $valid
      */
-    public function testEmailValidation($email, $valid) {
+    public function testEmailValidation($email, $valid)
+    {
         $this->assertEquals($valid, $this->validator->isValidEmail($email));
+    }
+
+    /**
+     * @dataProvider noStringProvider
+     * @expectedException Kata\RegistrationSystem\Exception\NotStringException
+     */
+    public function testEmailValidationForException($noStringInput)
+    {
+        $this->validator->isValidEmail($noStringInput);
     }
 
     /**
@@ -38,14 +51,25 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase {
      * @param $password
      * @param $valid
      */
-    public function testPasswordValidation($password, $valid) {
+    public function testPasswordValidation($password, $valid)
+    {
         $this->assertEquals($valid, $this->validator->isValidPlainPassword($password));
     }
 
     /**
+     * @dataProvider noStringProvider
+     * @expectedException Kata\RegistrationSystem\Exception\NotStringException
+     */
+    public function testPasswordValidationForException($noStringInput)
+    {
+        $this->validator->isValidPlainPassword($noStringInput);
+    }
+    
+    /**
      * @return array
      */
-    public function emailDataProvider() {
+    public function emailDataProvider()
+    {
         return array(
             array('kolos@escalion.com', true),
             array('demo@exampole.co.uk', true),
@@ -59,7 +83,8 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    public function passwordDataProvider() {
+    public function passwordDataProvider()
+    {
         return array(
             array('asdassd1231231', true),
             array('asdad894+!)(!+)', true),

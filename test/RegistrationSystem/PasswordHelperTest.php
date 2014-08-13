@@ -11,12 +11,14 @@
  */
 
 namespace Kata\Test\RegistrationSystem;
+
 use Kata\RegistrationSystem\PasswordHelper;
 use Kata\RegistrationSystem\Entity\Password;
 use Kata\RegistrationSystem\Validator;
 
 
-class PasswordHelperTest extends \PHPUnit_Framework_TestCase {
+class PasswordHelperTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * @var PasswordHelper
@@ -49,7 +51,7 @@ class PasswordHelperTest extends \PHPUnit_Framework_TestCase {
     /**
      * Checks if the random generated string contains only valid characters
      *
-     * @see $this->isValidRandomString
+     * @see          $this->isValidRandomString
      * @param $length
      * @dataProvider textLengthProvider
      * @todo test pWhelper charset directly

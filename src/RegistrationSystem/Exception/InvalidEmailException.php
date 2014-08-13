@@ -9,6 +9,7 @@
 namespace Kata\RegistrationSystem\Exception;
 
 
-class InvalidEmailException extends \Exception {
+class InvalidEmailException extends \Exception
+{
 
 } 

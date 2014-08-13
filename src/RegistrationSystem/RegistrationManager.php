@@ -8,17 +8,13 @@
 
 namespace Kata\RegistrationSystem;
 
-
-use Kata\RegistrationSystem\Entity\Password;
 use Kata\RegistrationSystem\Entity\User;
 use Kata\RegistrationSystem\Exception\ExistingEmailException;
 use Kata\RegistrationSystem\Exception\InvalidEmailException;
 use Kata\RegistrationSystem\Exception\InvalidPasswordException;
-use Kata\RegistrationSystem\Validator;
-use Kata\RegistrationSystem\PasswordHelper;
-use Kata\RegistrationSystem\Storage;
 
-class RegistrationManager {
+class RegistrationManager
+{
 
     /**
      * @var Validator
@@ -72,6 +68,7 @@ class RegistrationManager {
     public function formRegistration($email, $plainPassword)
     {
         $this->validateFormData($email, $plainPassword);
+
         $password = $this->passwordHelper->generatePassword($plainPassword, rand(12, 33));
         $user = new User();
         $user->email = $email;
@@ -86,24 +83,22 @@ class RegistrationManager {
      *
      * @param $email
      * @param $plainPassword
-     * @throws Exception\ExistingEmailException | \InvalidArgumentException
+     * @throws ExistingEmailException
+     * @throws InvalidPasswordException
+     * @throws InvalidEmailException
      */
     private function validateFormData($email, $plainPassword)
     {
-        if (false === $this->validator->isValidEmail($email))
-        {
+        if (false === $this->validator->isValidEmail($email)) {
             throw new InvalidEmailException;
         }
 
-        if (true === $this->storage->userExistsByEmail($email))
-        {
+        if (true === $this->storage->userExistsByEmail($email)) {
             throw new ExistingEmailException;
         }
 
-        if (false === $this->validator->isValidPlainPassword($plainPassword))
-        {
-           throw new InvalidPasswordException;
+        if (false === $this->validator->isValidPlainPassword($plainPassword)) {
+            throw new InvalidPasswordException;
         }
-
     }
 } 

@@ -7,9 +7,11 @@
  */
 
 namespace Kata\RegistrationSystem;
+
 use Kata\RegistrationSystem\Entity\User;
 
-class Storage {
+class Storage
+{
 
     /**
      * @var \PDO
@@ -33,7 +35,7 @@ class Storage {
     public function saveUser(User $user)
     {
         $statement = $this->pdo->prepare(
-        "INSERT INTO users (
+            "INSERT INTO users (
             email, password, salt
         ) VALUES (
             :_email, :_password, :_salt
